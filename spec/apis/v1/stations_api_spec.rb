@@ -2,9 +2,7 @@ require "spec_helper"
 
 describe V1::StationsApi do
 
-  let(:find_station_path) { "/v1/station/login" }
-  let(:register_path) { "/v1/user/register" }
-  let(:update_profile_path) { "/v1/user/update_profile" }
+  let(:stations_path) { "/v1/stations" }
   
   def one_stations_path station
     "/v1/stations/#{station.id}"
@@ -13,12 +11,28 @@ describe V1::StationsApi do
   context "get on station" do
 
     it "succes" do
-      station = create :station
+      description = "cca"
+      points = create_list :point, 5 
+      station = create :station,description:description,  points: points 
       res = json_get one_stations_path(station) 
-      binding.pry
-      # expect(res[:name]).to eq("aaa")
+      expect(res[:points].size).to eq(5)
+      expect(res[:description]).to eq(description)
     end
 
   end
-  
+
+  context "create statsion" do 
+    it "success" do 
+      description = "aaa"
+      address ="bb"      
+      lan = 12.03      
+      long = 12.05      
+      points = [{lantitude:13.10,longitude: 45.31},{lantitude: 34.2,longitude: 23.3}]
+      res = json_post stations_path, description: description, address: address, lantitude: lan, longitude: long, points: points
+      
+      expect(res[:description]).to eq(description)
+      expect(res[:lantitude]).to eq(lan)
+
+    end
+  end 
 end
