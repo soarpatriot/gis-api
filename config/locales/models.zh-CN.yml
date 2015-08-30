@@ -1,0 +1,25 @@
+zh-CN:
+  activerecord:
+      models:
+        user: "用户"
+        comment: "评论"
+      attributes:
+
+        user:
+          name: "用户名"
+          avatar: "头像"
+          email: "email"
+          password: "密码"
+          password_confirmation:  "确认密码"
+        comment:
+          content: "内容"
+      errors:
+        template:
+          header:
+            one:   "发生一个错误， {{model}}保存不成功"
+            other: "发生{{count}}个错误， {{model}}保存不成功"
+          body:    "请检查如下不合适信息:"
+        messages:
+          blank: "不能为空"
+          taken: "已经存在，请更换一个"
+

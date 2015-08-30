@@ -1,0 +1,7 @@
+namespace :log do
+  task :goliath do
+    on roles :app do
+      execute "tail -f #{shared_path}/log/production.log"
+    end
+  end
+end

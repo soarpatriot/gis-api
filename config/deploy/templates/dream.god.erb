@@ -1,0 +1,73 @@
+
+
+app_path = "<%= current_path %>"
+
+app_env = "production"
+log_path = "#{app_path}/log/production.log"
+env_vars = "G2_ENV=production"
+rvm_prefix = "~/.rvm/bin/rvm <%= fetch(:rvm_ruby_version) %> do"
+ruby_path = "#{env_vars} #{rvm_prefix} bundle exec ruby"
+
+require "#{app_path}/lib/god_restart_file.rb"
+
+(1..2).each do |id|
+  God.watch do |w|
+    port = "603#{id}"
+
+    w.group    = "dream"
+    w.log      = "<%= shared_path %>/log/god.log"
+
+    w.name     = "dream-#{port}"
+    w.interval = 60.seconds
+
+    pid_path = "#{app_path}/tmp/pids/goliath.#{port}.pid"
+
+    w.start   = "cd #{app_path} && #{ruby_path} server.rb -e #{app_env} -p #{port} -d -l #{log_path} -P #{pid_path}"
+
+    # QUIT gracefully shuts down workers
+    w.stop = "kill -QUIT `cat #{pid_path}`"
+
+    w.restart = "#{w.stop} && #{w.start}"
+
+    w.start_grace   = 20.seconds
+    w.pid_file      = pid_path
+
+    w.behavior(:clean_pid_file)
+
+    w.start_if do |start|
+      start.condition(:process_running) do |c|
+        c.interval = 60.seconds
+        c.running = false
+      end
+    end
+
+    w.restart_if do |restart|
+      restart.condition(:memory_usage) do |c|
+        c.above = 300.megabytes
+          c.times = [3, 5]
+        end
+
+      restart.condition(:cpu_usage) do |c|
+        c.above = 50.percent
+        c.times = 5
+      end
+
+      restart.condition(:restart_file_touched) do |c|
+        c.interval = 5.seconds
+        c.restart_file = File.join(app_path, "tmp", "restart.txt")
+      end
+    end
+
+    w.lifecycle do |on|
+      on.condition(:flapping) do |c|
+        c.to_state = [:start, :restart]
+        c.times = 5
+        c.within = 5.minute
+        c.transition = :unmonitored
+        c.retry_in = 10.minutes
+        c.retry_times = 5
+        c.retry_within = 2.hours
+      end
+    end
+  end
+end

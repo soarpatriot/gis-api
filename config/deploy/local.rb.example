@@ -1,0 +1,7 @@
+set :stage, :local
+
+set :deploy_to, "/home/soar/site/inkash-api"
+set :server_name, "192.168.88.207"
+
+
+server fetch(:server_name), user: "soar", roles: %w{app db web }

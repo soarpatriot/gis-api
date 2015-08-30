@@ -1,0 +1,4 @@
+zh-CN:
+  user_exsisted: "用户名已经存在，请更换用户名"
+  user_not_exist: "该账号不存在，请确认后重新输入"
+  password_not_correct: "账号或密码不正确，请确认后重新输入"

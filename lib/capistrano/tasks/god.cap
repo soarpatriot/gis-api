@@ -1,0 +1,38 @@
+namespace :god do
+
+  desc "upload god config"
+  task :update_config do
+    on roles :web do
+      dest = "#{shared_path}/config/dream.god"
+      upload! from_template("dream.god.erb"), dest
+      info "Uploaded to '#{fetch(:server_name)}@#{dest}'"
+    end
+  end
+
+  desc "god terminate"
+  task :terminate => "rvm:hook" do
+    on roles(:app) do
+      within current_path do
+        execute :bundle,"exec god terminate"
+      end
+    end
+  end
+
+  desc "god load config"
+  task :load => "rvm:hook" do
+    on roles(:app) do
+      within current_path do
+        execute :bundle, "exec god load #{shared_path}/config/dream.god"
+      end
+    end
+  end
+  
+  desc "god start"
+  task :start => "rvm:hook" do
+    on roles(:app) do
+      within current_path do
+          execute :bundle,"exec god -c #{shared_path}/config/dream.god"
+      end
+    end
+  end
+end

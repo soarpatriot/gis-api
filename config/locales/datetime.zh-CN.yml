@@ -1,0 +1,44 @@
+zh-CN:
+  datetime:
+    distance_in_words:
+      about_x_hours:
+        one: 一小时前
+        other: "%{count} 小时前"
+      about_x_months:
+        one: 一个月前
+        other: "%{count} 个月前"
+      about_x_years:
+        one: 一年前
+        other: "%{count} 年前"
+      almost_x_years:
+        one: 大约一年前
+        other: "大约 %{count} 年前"
+      half_a_minute: 半分钟
+      less_than_x_minutes:
+        one: 不到一分钟
+        other: "%{count} 分钟前"
+      less_than_x_seconds:
+        one: 刚刚
+        other: "%{count} 秒前"
+      over_x_years:
+        one: 一年多前
+        other: ! '%{count} 年多前'
+      x_days:
+        one: 一天前
+        other: ! '%{count} 天前'
+      x_minutes:
+        one: 一分钟前
+        other: ! '%{count} 分钟前'
+      x_months:
+        one: 一个月前
+        other: ! '%{count} 个月前'
+      x_seconds:
+        one: 一秒前
+        other: ! '%{count} 秒前'
+    prompts:
+      day: 日
+      hour: 时
+      minute: 分
+      month: 月
+      second: 秒
+      year: 年
