@@ -17,6 +17,11 @@ module RackTestHelpers
     post url, data
     JSON.parse last_response.body, symbolize_names: true
   end
+  def json_put url, data={}
+    put url, data
+    JSON.parse last_response.body, symbolize_names: true
+  end
+
 
   def json_get url, data={}
     get url, data
