@@ -1,7 +1,17 @@
 class V1::StationsApi < Grape::API
 
   namespace :stations do
-
+    desc "获取city 下 station", {
+      entity: StationEntity
+    }
+    params do
+      requires :city_id, type: Integer
+    end
+    get "city" do
+      stations = City.find(params[:city_id]).stations
+      present stations, with: StationEntity
+    end
+    
     desc "获取station", {
       entity: StationEntity
     }
