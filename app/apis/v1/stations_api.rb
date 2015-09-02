@@ -11,6 +11,17 @@ class V1::StationsApi < Grape::API
       stations = City.find(params[:city_id]).stations
       present stations, with: StationEntity
     end
+
+    desc "获取city 下没有画好的 station", {
+      entity: StationEntity
+    }
+    params do
+      requires :city_id, type: Integer
+    end
+    get "nopoints" do
+      stations = Station.where(stationable_id:params[:city_id],stationable_type:"City").includes(:points).where(points:{pointable_id:nil})
+      present stations, with: StationEntity
+    end
     
     desc "获取station", {
       entity: StationEntity
