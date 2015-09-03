@@ -4,7 +4,7 @@ gem "i18n"
 gem "rest-client", "~> 1.6.7"
 gem 'httparty'
 gem 'grape'
-gem 'grape-entity'
+gem 'grape-entity', "~> 0.4.8"
 gem 'grape-kaminari'
 gem 'grape-swagger'
 gem 'rack-cors'

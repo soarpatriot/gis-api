@@ -9,7 +9,27 @@ describe V1::StationsApi do
   def one_stations_path station
     "/v1/stations/#{station.id}"
   end
+
+  def station_area_path station 
+    "/v1/stations/#{station.id}/areas"
+  end
   
+  context "station area" do 
+    it "get areas" do 
+      points = create_list :point, 10
+      points1 = create_list :point, 5
+      area1 = create :area, points: points 
+      area2 = create :area, points: points1 
+
+      areas = [area1,area2]
+      station = create :station, areas: areas 
+
+      res = json_get station_area_path(station)
+      expect(res.size).to eq(2)
+
+    end
+  end 
+
   context "city stations" do 
     it "succes" do
       description = "cca"
@@ -37,7 +57,6 @@ describe V1::StationsApi do
       stations << station1
       city = create :city, stations: stations
       res = json_get nopoints_stations_path, city_id: city.id 
-      binding.pry
       expect(res.size).to eq(1)
 
     end

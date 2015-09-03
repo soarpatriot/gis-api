@@ -96,6 +96,16 @@ class V1::StationsApi < Grape::API
       
     end
     
+    desc "获取站点下区域", {
+      entity: AreaEntity
+    }
+    params do
+      requires :id, type: Integer 
+    end
+    get ":id/areas" do
+      areas = Station.find(params[:id]).areas
+      present areas, with: AreaEntity
+    end
     
   end
 end

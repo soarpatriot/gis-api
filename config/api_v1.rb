@@ -26,6 +26,8 @@ class ApiV1 < Grape::API
 
 
   mount V1::StationsApi
+  mount V1::CommissionsApi
+  mount V1::AreasApi
 
   add_swagger_documentation  api_version:"v1", base_path: Settings.host
   # http://api.dreamreality.cn/v1/swagger_doc.json   
