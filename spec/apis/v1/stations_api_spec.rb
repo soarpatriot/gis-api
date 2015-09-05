@@ -125,4 +125,26 @@ describe V1::StationsApi do
     end
  
   end
+
+  context "delete statsion" do 
+    it "success" do 
+
+      points = create_list :point, 3
+      points1 = create_list :point,4 
+      points2 = create_list :point,5 
+
+      area = create :area, points: points 
+      area1 = create :area, points: points2 
+      areas = [area,area1] 
+      station = create :station, areas: areas, points: points1 
+
+      res = data_delete one_stations_path(station), id: station.id 
+      expect(Area.all.size).to eq(0)
+      expect(Point.all.size).to eq(0)
+      expect(Station.all.size).to eq(0)
+
+    end
+  end 
+
+
 end

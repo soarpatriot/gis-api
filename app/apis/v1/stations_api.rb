@@ -106,6 +106,19 @@ class V1::StationsApi < Grape::API
       areas = Station.find(params[:id]).areas
       present areas, with: AreaEntity
     end
-    
+
+
+    desc "删除站点", {
+      entity: StationEntity
+    }
+    params do 
+      requires :id, type: Integer 
+    end
+    delete ":id" do 
+      station = Station.destroy(params[:id])
+      present station, with: StationEntity
+    end
+
+
   end
 end
