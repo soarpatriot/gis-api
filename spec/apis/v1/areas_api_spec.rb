@@ -31,6 +31,18 @@ describe V1::AreasApi do
       expect(res[:points].size).to eq(2)
     end
   end
+  context "delete area" do 
+    it "success" do
+      
+      points2 = create_list :point, 5
+      station = create :station 
+      area = create :area, station:station, points: points2, label: "abc"
+      res = data_delete update_area_path(area), id: area.id 
+      expect(Point.all.size).to eq(0)
+    end
+  end
+
+
 
 
 end

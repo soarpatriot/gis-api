@@ -50,6 +50,11 @@ module RackTestHelpers
     last_response
   end
 
+  def data_delete url, data={}
+    delete url, data 
+    last_response
+  end
+
 
 
   def auth_json_put url, data={}

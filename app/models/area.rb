@@ -1,7 +1,7 @@
 class Area < ActiveRecord::Base
   
   belongs_to :station
-  has_many :points, as: :pointable
+  has_many :points, as: :pointable, dependent: :destroy
 
   def in? point 
     px = point[:lantitude] 

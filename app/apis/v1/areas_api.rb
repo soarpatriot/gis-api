@@ -57,6 +57,17 @@ class V1::AreasApi < Grape::API
 
     end
 
+    desc "删除区域", {
+      entity: AreaEntity
+    }
+    params do 
+      requires :id, type: Integer 
+    end
+    delete ":id" do 
+      area = Area.destroy(params[:id])
+      present area, with: AreaEntity
+    end
+
 
   end
 end
