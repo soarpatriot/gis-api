@@ -70,7 +70,30 @@ class V1::AreasApi < Grape::API
       area = Area.destroy(params[:id])
       present area, with: AreaEntity
     end
+     
+    desc "区域提成查询", {
+    }
+    params do 
+      requires :station_name, type: String 
+      requires :lantitude, type: Float
+      requires :longitude, type: Float
+    end
+    get "commission" do 
+      price = -1
+      point = Hash.new 
+      point[:lantitude] = params[:lantitude]
+      point[:longitude] = params[:longitude]
+      station = Station.where(description: params[:station_name]).try(:first) 
 
-
+      unless station.nil?
+        areas = station.areas 
+        areas.each do |area| 
+          if area.include_point? point
+            price =  area.commission.price
+          end 
+        end 
+      end
+      {price: price } 
+    end
   end
 end

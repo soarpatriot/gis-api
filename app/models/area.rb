@@ -4,7 +4,7 @@ class Area < ActiveRecord::Base
   belongs_to :commission
   has_many :points, as: :pointable, dependent: :destroy
 
-  def in? point 
+  def include_point? point 
     px = point[:lantitude] 
     py = point[:longitude] 
     flag = false 

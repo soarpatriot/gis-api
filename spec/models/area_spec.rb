@@ -36,17 +36,17 @@ RSpec.describe Area, :type => :model do
        points = [point1,point2,point3,point4,point5,point6,point7]
        area = create :area, points: points  
 
-       at_area = area.in? test_point
+       at_area = area.include_point? test_point
        
        expect(at_area).to eq(true)
-       at_area = area.in? test_point2
+       at_area = area.include_point? test_point2
        expect(at_area).to eq(true)
 
-       at_area = area.in? test_point3
+       at_area = area.include_point? test_point3
        expect(at_area).to eq(false)
-       at_area = area.in? test_point4
+       at_area = area.include_point? test_point4
        expect(at_area).to eq(false)
-       at_area = area.in? test_point5
+       at_area = area.include_point? test_point5
        expect(at_area).to eq(false)
  
      end

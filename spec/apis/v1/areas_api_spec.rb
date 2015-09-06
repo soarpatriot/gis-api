@@ -3,6 +3,7 @@ require "spec_helper"
 describe V1::AreasApi do
 
   let(:areas_path) { "/v1/areas" }
+  let(:areas_commission_path) { "/v1/areas/commission" }
  
   def update_area_path area 
     "v1/areas/#{area.id}"
@@ -45,7 +46,61 @@ describe V1::AreasApi do
     end
   end
 
+  context "get commission" do 
+    it "success" do
+       point1 = create :point, lantitude: 40.0536, longitude: 116.297
+       point2 = create :point, lantitude: 40.0497, longitude: 116.298 
+       point3 = create :point, lantitude: 40.0464, longitude: 116.303 
+       point4 = create :point, lantitude: 40.0475, longitude: 116.311 
+       point5 = create :point, lantitude: 40.0511, longitude: 116.311 
+       point6 = create :point, lantitude: 40.0547, longitude: 116.308 
+       point7 = create :point, lantitude: 40.055, longitude: 116.307 
 
+       points = [point1,point2,point3,point4,point5,point6,point7]
+
+       test_point = Hash.new 
+       test_point[:lantitude] = 40.0521
+       test_point[:longitude] = 116.305
+       test_point2 = Hash.new 
+       test_point2[:lantitude] = 40.0536
+       test_point2[:longitude] = 116.297
+       test_point3 = Hash.new 
+       test_point3[:lantitude] = 40.046897
+       test_point3[:longitude] = 116.299642
+
+
+      points2 = create_list :point, 5
+      station = create :station, description: "aa" 
+      commission = create :commission, price: 1
+      area = create :area, station:station, points: points, label: "abc", commission: commission
+      res = json_get areas_commission_path, station_name: "aa", lantitude: test_point[:lantitude], longitude: test_point[:longitude] 
+      expect(res[:price]).to eq(1.0)
+
+      res = json_get areas_commission_path, station_name: "aa", lantitude: test_point3[:lantitude], longitude: test_point3[:longitude] 
+      expect(res[:price]).to eq(-1)
+    end
+    it "station not exist" do
+       test_point = Hash.new 
+       test_point[:lantitude] = 40.0521
+       test_point[:longitude] = 116.305
+       test_point2 = Hash.new 
+       test_point2[:lantitude] = 40.0536
+       test_point2[:longitude] = 116.297
+       test_point3 = Hash.new 
+       test_point3[:lantitude] = 40.046897
+       test_point3[:longitude] = 116.299642
+
+      points2 = create_list :point, 5
+      station = create :station, description: "aa" 
+      commission = create :commission, price: 1
+      area = create :area, station:station, label: "abc", commission: commission
+      res = json_get areas_commission_path, station_name: "bb", lantitude: test_point3[:lantitude], longitude: test_point3[:longitude] 
+      expect(res[:price]).to eq(-1)
+    end
+ 
+  end
+
+  
 
 
 end
