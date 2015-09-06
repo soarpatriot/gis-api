@@ -1,7 +1,6 @@
 FactoryGirl.define do
-  factory :city do
+  factory :province do
     description "aa"
-
   end
 
 end
