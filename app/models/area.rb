@@ -1,6 +1,7 @@
 class Area < ActiveRecord::Base
   
   belongs_to :station
+  belongs_to :commission
   has_many :points, as: :pointable, dependent: :destroy
 
   def in? point 

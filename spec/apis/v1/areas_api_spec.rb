@@ -10,23 +10,26 @@ describe V1::AreasApi do
  
   context "create area" do 
     it "success" do
+      commission = create :commission 
       points = [{lantitude:13.10,longitude: 45.31},{lantitude: 34.2,longitude: 23.3}]
       label = "aa"
       station = create :station 
-      res = json_post areas_path, label:label, points: points, station_id: station.id 
+      res = json_post areas_path, label:label, points: points, station_id: station.id, commission_id: commission.id
+      expect(res[:commission_id]).to eq(commission.id)
       expect(res[:label]).to eq(label)
       expect(res[:points].size).to eq(2)
     end
   end
   context "update area" do 
     it "success" do
+      commission = create :commission 
       points = [{lantitude:13.10,longitude: 45.31},{lantitude: 34.2,longitude: 23.3}]
       label = "aa"
       
       points2 = create_list :point, 5
       station = create :station 
-      area = create :area, station:station, points: points2, label: "abc"
-      res = json_put update_area_path(area), label:label, points: points, station_id: station.id 
+      area = create :area, station:station, points: points2, label: "abc", commission: commission
+      res = json_put update_area_path(area), label:label, points: points, station_id: station.id, commission_id: commission.id
       expect(res[:label]).to eq(label)
       expect(res[:points].size).to eq(2)
     end

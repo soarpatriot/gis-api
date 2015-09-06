@@ -38,17 +38,20 @@ class V1::StationsApi < Grape::API
       entity: StationEntity
     } 
     params do 
-      requires :description, type:String 
-      requires :lantitude, type:Float 
-      requires :longitude, type:Float
-      requires :address, type:String 
-      requires :points,type:Array do 
+      optional :description, type:String 
+      requires :stationable_id, type:String 
+      requires :stationable_type, type:String 
+      optional :lantitude, type:Float 
+      optional :longitude, type:Float
+      optional :address, type:String 
+      optional :points,type:Array do 
         requires :lantitude
         requires :longitude
       end
+ 
     end
     post do 
-      station = Station.create description: params[:description], lantitude: params[:lantitude], longitude: params[:longitude], address: params[:address] 
+      station = Station.create description: params[:description], lantitude: params[:lantitude], longitude: params[:longitude], address: params[:address], stationable_id: params[:stationable_id], stationable_type: params[:stationable_type] 
       points = params[:points]
       points.each do  |point|
         station.points.create lantitude: point.lantitude, longitude: point.longitude

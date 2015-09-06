@@ -8,13 +8,14 @@ class V1::AreasApi < Grape::API
     params do 
       requires :label, type:String 
       requires :station_id, type:Integer 
+      optional :commission_id, type: Integer
       requires :points, type:Array do 
         requires :lantitude
         requires :longitude
       end
     end
     post do 
-      area = Area.create label: params[:label], station_id: params[:station_id] 
+      area = Area.create label: params[:label], station_id: params[:station_id], commission_id: params[:commission_id] 
       points = params[:points]
       points.each do  |point|
         area.points.create lantitude: point.lantitude, longitude: point.longitude
@@ -29,6 +30,7 @@ class V1::AreasApi < Grape::API
       requires :id, type: Integer 
       optional :label, type:String 
       requires :station_id, type:Integer 
+      optional :commission_id, type: Integer
       optional :points,type:Array do 
         requires :lantitude
         requires :longitude
@@ -38,6 +40,7 @@ class V1::AreasApi < Grape::API
       area = Area.find(params[:id])
       area_params = Hash.new
       area_params[:label] = params[:label] if params[:label]
+      area_params[:commission_id] = params[:commission_id] if params[:commission_id]
 
       area.update! area_params
 
