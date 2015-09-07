@@ -29,7 +29,7 @@ namespace :deploy do
 
     on roles(:app) do
       within current_path do
-        execute :bundle, "exec god start dream"
+        execute :bundle, "exec god start gis-api"
       end
     end
   end
@@ -39,7 +39,7 @@ namespace :deploy do
 
     on roles(:app) do
       within current_path do
-        execute :bundle, "exec god stop dream"
+        execute :bundle, "exec god stop gis-api"
       end
     end
   end

@@ -36,6 +36,7 @@ class ServiceApplication < Grape::API
   mount ApiV1
 
 
+  add_swagger_documentation 
   get '/(*:url)', :anchor => false do
     error! "Not found! No route mapping to >> #{env["HTTP_HOST"]}/#{env["PATH_INFO"]}", 404
   end
