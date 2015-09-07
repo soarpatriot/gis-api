@@ -12,12 +12,12 @@ require "#{app_path}/lib/god_restart_file.rb"
 
 (1..2).each do |id|
   God.watch do |w|
-    port = "603#{id}"
+    port = "703#{id}"
 
-    w.group    = "dream"
+    w.group    = "gis-api"
     w.log      = "<%= shared_path %>/log/god.log"
 
-    w.name     = "dream-#{port}"
+    w.name     = "gis-api-#{port}"
     w.interval = 60.seconds
 
     pid_path = "#{app_path}/tmp/pids/goliath.#{port}.pid"

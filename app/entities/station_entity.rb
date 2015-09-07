@@ -1,3 +1,4 @@
+require "point_entity"
 class StationEntity < Grape::Entity
   expose :id,             documentation: {required: true, type: "Integer", desc: "id"}
   expose :description,             documentation: {required: true, type: "String", desc: "站点名称"}

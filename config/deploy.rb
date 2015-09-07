@@ -1,11 +1,11 @@
 lock '3.4.0'
 
-set :application, "dream"
+set :application, "gis-api"
 
 set :rvm_type, :user
 set :rvm_ruby_version, '2.1.5'
 
-set :repo_url, "git@github.com:soarpatriot/dream.git"
+set :repo_url, "git@github.com:soarpatriot/gis-api.git"
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }
 set :branch, "master"
 

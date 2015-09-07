@@ -3,8 +3,8 @@ namespace :god do
   desc "upload god config"
   task :update_config do
     on roles :web do
-      dest = "#{shared_path}/config/dream.god"
-      upload! from_template("dream.god.erb"), dest
+      dest = "#{shared_path}/config/gis-api.god"
+      upload! from_template("gis-api.god.erb"), dest
       info "Uploaded to '#{fetch(:server_name)}@#{dest}'"
     end
   end
@@ -22,7 +22,7 @@ namespace :god do
   task :load => "rvm:hook" do
     on roles(:app) do
       within current_path do
-        execute :bundle, "exec god load #{shared_path}/config/dream.god"
+        execute :bundle, "exec god load #{shared_path}/config/gis-api.god"
       end
     end
   end
@@ -31,7 +31,7 @@ namespace :god do
   task :start => "rvm:hook" do
     on roles(:app) do
       within current_path do
-          execute :bundle,"exec god -c #{shared_path}/config/dream.god"
+          execute :bundle,"exec god -c #{shared_path}/config/gis-api.god"
       end
     end
   end
