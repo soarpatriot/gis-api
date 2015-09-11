@@ -1,11 +1,3 @@
-GIT
-  remote: git://github.com/huobazi/carrierwave-qiniu.git
-  revision: 41f765a0f42f91e03e184cd9773654ce966c879a
-  specs:
-    carrierwave-qiniu (0.1.6)
-      carrierwave
-      qiniu (~> 6.4.1)
-
 GEM
   remote: http://ruby.taobao.org/
   specs:
@@ -61,11 +53,6 @@ GEM
     capistrano-rvm (0.1.2)
       capistrano (~> 3.0)
       sshkit (~> 1.2)
-    carrierwave (0.10.0)
-      activemodel (>= 3.2.0)
-      activesupport (>= 3.2.0)
-      json (>= 1.7)
-      mime-types (>= 1.16)
     celluloid (0.16.0)
       timers (~> 4.0.0)
     ci_reporter (2.0.0)
@@ -200,11 +187,6 @@ GEM
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
       slop (~> 3.4)
-    qiniu (6.4.1)
-      json (~> 1.7)
-      mime-types (~> 2.4.3)
-      rest-client (~> 1.6)
-      ruby-hmac (~> 0.4)
     rack (1.5.2)
     rack-accept (0.4.5)
       rack (>= 0.4)
@@ -261,7 +243,6 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.2.0)
     rspec-support (3.2.2)
-    ruby-hmac (0.4.0)
     safe_yaml (1.0.4)
     settingslogic (2.0.9)
     shellany (0.0.1)
@@ -321,8 +302,6 @@ DEPENDENCIES
   capistrano
   capistrano-bundler
   capistrano-rvm
-  carrierwave
-  carrierwave-qiniu!
   ci_reporter
   database_cleaner
   delete_paranoid

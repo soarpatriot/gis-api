@@ -1,10 +1,11 @@
 
 set :stage, :production
-set :server_name, "api.dreamreality.cn"
+set :server_name, "10.230.3.181"
 
+set :repo_url, "https://github.com/soarpatriot/gis-api.git"
 set :branch, "master"
-set :deploy_to, "/data/www/dream"
+set :deploy_to, "/data/www/gis-api"
 
 set :god_pid, "#{shared_path}/tmp/pids/god.pid"
 
-server fetch(:server_name), user: "soar", roles: %w{web app db}
+server fetch(:server_name), user: "deploy", roles: %w{web app db}

@@ -30,8 +30,8 @@ gem 'actionmailer', '~> 4.1.1'
 gem 'bcrypt'
 gem 'delete_paranoid'
 gem 'mini_magick'
-gem 'carrierwave', :require => %w(carrierwave carrierwave/orm/activerecord)
-gem 'carrierwave-qiniu', github: 'huobazi/carrierwave-qiniu' 
+# gem 'carrierwave', :require => %w(carrierwave carrierwave/orm/activerecord)
+# gem 'carrierwave-qiniu', github: 'huobazi/carrierwave-qiniu' 
 
 group :production do
   gem 'goliath'
