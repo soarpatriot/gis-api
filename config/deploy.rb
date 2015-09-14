@@ -77,5 +77,6 @@ namespace :deploy do
 end
 
 before "bundler:install", "rvm:hook"
+after  "deploy:publishing", "nginx:update_config"
 after  "deploy:publishing", "deploy:bundle"
 after  "deploy:publishing", "deploy:restart"
