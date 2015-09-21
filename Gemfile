@@ -11,6 +11,9 @@ gem 'rack-cors'
 
 gem 'mysql2'
 
+gem 'em-synchrony'
+gem 'em-http-request'
+
 gem 'devise'
 gem 'gretel'
 gem 'acts_as_votable', '~> 0.10.0'
@@ -50,6 +53,7 @@ group :development do
 end
 
 group :test do
+  gem 'spreadsheet'
   gem 'factory_girl'
   gem 'rspec'
   gem 'ci_reporter'

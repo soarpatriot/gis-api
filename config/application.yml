@@ -4,6 +4,7 @@ defaults: &defaults
   host: "http://192.168.253.104:9000"
   first_scrip: "我要告诉全世界，这块处女地是我发现的！"
   share_title: "fsdfsdf"
+  allow_origin: "http://staging.cityhub.me"
   SSP_AUTH_TOKEN: "7096f9915e44e98443d7ef7143e98009"
   SSP_API_URL: "https://api.test.soundink.net/v2/soundink_codes"
   geolocation:
