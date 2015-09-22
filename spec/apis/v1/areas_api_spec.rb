@@ -152,31 +152,7 @@ describe V1::AreasApi do
  
   end
 
-  context "test commission api" do 
-=begin
-    it "perform" do
-       Spreadsheet.client_encoding = 'UTF-8'
-       province_file = "#{G2.config.root_dir}/lib/assets/p.xls"
-       province_book = Spreadsheet.open province_file
-       province_sheet = province_book.worksheet 0
-   
-      province_sheet.each_with_index do |row,index |
-        if index >= 1 and index < 100
-           description = row[1].strip
-           lng = row[2]
-           lat = row[3]
-           startTime = Time.now
-           response = RestClient.get 'http://api.cityhub.me/v1/areas/commission.json', {:params => {:station_name => description, :lantitude => lat, :longitude=> lng}}
-           endTime = Time.now
- 
-          puts "#{response} : #{endTime - startTime} " 
-
-        end
-      end
-
-    end
-=end
-  end  
+  
 
 
 end
