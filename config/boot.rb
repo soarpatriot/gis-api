@@ -33,7 +33,7 @@ require "delete_paranoid"
 require "pry"
 require "uuidtools"
 require "restclient"
-
+require "spreadsheet"
 #require "devise"
 require "acts_as_votable"
 require "acts_as_tree"

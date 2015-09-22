@@ -43,7 +43,7 @@ end
 
 
 group :development do
-
+  gem 'spreadsheet'
   gem 'guard-rspec'
   gem 'capistrano'
   gem 'capistrano-bundler'

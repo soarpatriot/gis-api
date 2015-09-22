@@ -1,5 +1,9 @@
 class V1::AreasApi < Grape::API
-
+  helpers do
+    def logger
+       V1::AreasApi.logger
+    end
+  end
   namespace :areas do
    
     desc "创建区域", {
@@ -96,13 +100,26 @@ class V1::AreasApi < Grape::API
         return  {status:2, message: I18n.t("area.not_exist"),price: -1}
       end 
 
-      
+      # startTime = Time.now      
       areas.each do |area| 
         if area.include_point? point
           price =  area.commission.price
           flag = true
+          break
         end 
       end 
+
+    #  i = 0
+    #  while i <= areas.size 
+    #    if areas[i].include_point? point
+    #      price =  areas[i].commission.price
+    #      flag = true
+    #      break
+    #    end 
+    #    i += 1
+    #  end
+      # endTime = Time.now
+      # logger.info "point in area cost #{endTime-startTime}"
 
       if flag 
         return  {status:0, message: I18n.t("area.commission_success"),price: price}
