@@ -9,6 +9,8 @@ gem 'grape-kaminari'
 gem 'grape-swagger'
 gem 'rack-cors'
 
+gem 'spreadsheet'
+
 gem 'mysql2'
 gem 'em-synchrony'
 gem 'em-http-request'
@@ -43,7 +45,6 @@ end
 
 
 group :development do
-  gem 'spreadsheet'
   gem 'guard-rspec'
   gem 'capistrano'
   gem 'capistrano-bundler'
