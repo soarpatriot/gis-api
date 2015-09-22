@@ -10,7 +10,7 @@ ruby_path = "#{env_vars} #{rvm_prefix} bundle exec ruby"
 
 require "#{app_path}/lib/god_restart_file.rb"
 
-(1..2).each do |id|
+(0..9).each do |id|
   God.watch do |w|
     port = "703#{id}"
 
