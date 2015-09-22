@@ -69,13 +69,6 @@ GEM
       activerecord
     descendants_tracker (0.0.4)
       thread_safe (~> 0.3, >= 0.3.1)
-    devise (3.4.1)
-      bcrypt (~> 3.0)
-      orm_adapter (~> 0.1)
-      railties (>= 3.2.6, < 5)
-      responders
-      thread_safe (~> 0.1)
-      warden (~> 1.2.3)
     diff-lcs (1.2.5)
     docile (1.1.5)
     em-http-request (1.1.2)
@@ -182,7 +175,6 @@ GEM
     notiffany (0.0.6)
       nenv (~> 0.1)
       shellany (~> 0.0)
-    orm_adapter (0.5.0)
     pry (0.10.1)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
@@ -219,8 +211,6 @@ GEM
     rb-fsevent (0.9.4)
     rb-inotify (0.9.5)
       ffi (>= 0.5.0)
-    responders (1.1.2)
-      railties (>= 3.2, < 4.2)
     rest-client (1.6.7)
       mime-types (>= 1.16)
     rpush (2.4.0)
@@ -283,8 +273,6 @@ GEM
       coercible (~> 1.0)
       descendants_tracker (~> 0.0, >= 0.0.3)
       equalizer (~> 0.0, >= 0.0.9)
-    warden (1.2.3)
-      rack (>= 1.0)
     webmock (1.20.4)
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
@@ -305,7 +293,6 @@ DEPENDENCIES
   ci_reporter
   database_cleaner
   delete_paranoid
-  devise
   em-http-request
   em-synchrony
   factory_girl
