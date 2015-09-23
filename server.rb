@@ -2,6 +2,8 @@ require "rubygems"
 require "bundler/setup"
 
 require "goliath"
+require "redis/connection/synchrony"
+require "redis"
 
 Goliath::Request.log_block = proc do |env, response, elapsed_time|
   request_params = env.params.collect { |param| param.join(": ") }
@@ -11,6 +13,8 @@ Goliath::Request.log_block = proc do |env, response, elapsed_time|
   env[Goliath::Request::RACK_LOGGER].info("[#{env['REMOTE_ADDR']}] #{request_params}") if request_params.length > 0
   env[Goliath::Request::RACK_LOGGER].info("[#{env['REMOTE_ADDR']}] #{response.status} #{method} #{path} in #{'%.2f' % elapsed_time} ms \n")
 end
+
+$redis = Redis.new host: "localhost", port: 6379, driver: :hiredis
 
 require_relative "config/application"
 

@@ -99,8 +99,16 @@ class V1::AreasApi < Grape::API
       if areas.size == 0
         return  {status:2, message: I18n.t("area.not_exist"),price: -1}
       end 
-
+      
+      value = $redis.get "#{params[:lantitude]}#{params[:longitude]}"
+      
+      logger.info "key: #{params[:lantitude]}#{params[:longitude]} ,value:  #{value}"
+      unless value.nil?
+        return value
+      end
       # startTime = Time.now      
+      #
+      
       areas.each do |area| 
         if area.include_point? point
           price =  area.commission.price
@@ -122,9 +130,14 @@ class V1::AreasApi < Grape::API
       # logger.info "point in area cost #{endTime-startTime}"
 
       if flag 
-        return  {status:0, message: I18n.t("area.commission_success"),price: price}
+        
+        result =  {status:0, message: I18n.t("area.commission_success"),price: price}
+        $redis.set "#{params[:lantitude]}#{params[:longitude]}", result.to_json
+        return result
       else
-        return  {status:3, message: I18n.t("area.address_not_in_station"),price: -1}
+        result =  {status:3, message: I18n.t("area.address_not_in_station"),price: -1}
+        $redis.set "#{params[:lantitude]}#{params[:longitude]}", result.to_json
+        return result
       end
     end
   end

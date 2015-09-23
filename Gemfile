@@ -15,6 +15,9 @@ gem 'mysql2'
 gem 'em-synchrony'
 gem 'em-http-request'
 
+gem "hiredis"
+gem "redis", require: ["redis/connection/synchrony", "redis"]
+
 gem 'gretel'
 gem 'acts_as_votable', '~> 0.10.0'
 gem 'acts_as_tree'
