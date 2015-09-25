@@ -1,6 +1,8 @@
 require "rubygems"
 require "bundler/setup"
 
+Bundler.require :default
+
 root_dir = File.expand_path("../..", __FILE__)
 app_dir = File.join(root_dir, "app")
 
@@ -14,29 +16,6 @@ end
   $LOAD_PATH.unshift File.join(root_dir, dir)
 end
 $LOAD_PATH.unshift File.join(root_dir, "config/initializers")
-
-require "i18n"
-require "active_support"
-require "action_mailer"
-require "grape"
-require "grape-entity"
-require "kaminari/grape"
-require "grape-kaminari"
-require "rack/cors"
-require 'settingslogic'
-require "geocoder"
-
-require "yaml"
-require "mysql2"
-require "awesome_nested_set"
-require "delete_paranoid"
-require "pry"
-require "uuidtools"
-require "restclient"
-require "spreadsheet"
-#require "devise"
-require "acts_as_votable"
-require "acts_as_tree"
 
 
 require 'g2'
