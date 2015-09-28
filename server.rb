@@ -2,8 +2,8 @@ require "rubygems"
 require "bundler/setup"
 
 require "goliath"
-require "redis/connection/synchrony"
 require "redis"
+require "redis/connection/synchrony"
 
 Goliath::Request.log_block = proc do |env, response, elapsed_time|
   request_params = env.params.collect { |param| param.join(": ") }
@@ -15,6 +15,7 @@ Goliath::Request.log_block = proc do |env, response, elapsed_time|
 end
 
 $redis = Redis.new host: "localhost", port: 6379, driver: :hiredis
+# $redis = Redis.new host: "localhost", port: 6379, driver: :hiredis
 
 require_relative "config/application"
 

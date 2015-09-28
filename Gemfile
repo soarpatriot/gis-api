@@ -15,7 +15,7 @@ gem 'mysql2'
 gem 'em-synchrony'
 gem 'em-http-request'
 
-gem "hiredis"
+gem 'hiredis'
 gem "redis", require: ["redis/connection/synchrony", "redis"]
 
 gem 'gretel'
@@ -41,8 +41,6 @@ gem 'mini_magick'
 
 group :production do
   gem 'goliath'
-  gem 'em-synchrony'
-  gem 'em-http-request'
 end
 
 
