@@ -16,7 +16,7 @@ gem 'em-synchrony'
 gem 'em-http-request'
 
 gem 'hiredis'
-gem "redis", require: ["redis/connection/synchrony", "redis"]
+gem "redis", require: ["redis/connection/hiredis", "redis"]
 
 gem 'gretel'
 gem 'acts_as_votable', '~> 0.10.0'

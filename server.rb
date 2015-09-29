@@ -14,7 +14,7 @@ Goliath::Request.log_block = proc do |env, response, elapsed_time|
   env[Goliath::Request::RACK_LOGGER].info("[#{env['REMOTE_ADDR']}] #{response.status} #{method} #{path} in #{'%.2f' % elapsed_time} ms \n")
 end
 
-$redis = Redis.new host: "localhost", port: 6379, driver: :hiredis
+$redis = Redis.new host: "localhost", port: 6379, driver: :hiredis, tcp_keepalive: 2, timeout: 2, reconnect_attempts: 5
 # $redis = Redis.new host: "localhost", port: 6379, driver: :hiredis
 
 require_relative "config/application"
