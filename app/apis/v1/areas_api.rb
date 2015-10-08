@@ -4,8 +4,15 @@ class V1::AreasApi < Grape::API
        V1::AreasApi.logger
     end
   end
+  
+  before do 
+    key_authenticate!
+  end 
+  params do 
+    requires :app_key, type: String
+  end
   namespace :areas do
-   
+    
     desc "创建区域", {
       entity: AreaEntity
     }
@@ -19,6 +26,7 @@ class V1::AreasApi < Grape::API
       end
     end
     post do 
+      
       area = Area.create label: params[:label], station_id: params[:station_id], commission_id: params[:commission_id] 
       points = params[:points]
       points.each do  |point|

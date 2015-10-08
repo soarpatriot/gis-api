@@ -23,7 +23,7 @@ class ApiV1 < Grape::API
     }
   end
 
-
+  helpers AccessHelper
 
   mount V1::StationsApi
   mount V1::CommissionsApi

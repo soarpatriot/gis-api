@@ -9,7 +9,7 @@ describe V1::CommissionsApi do
     it "get all" do
 
       create_list :commission, 5
-      res = json_get commissions_path 
+      res = auth_json_get commissions_path 
       expect(res.size).to eq(5)
     end
   end

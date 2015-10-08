@@ -2,6 +2,7 @@ require "spec_helper"
 
 describe V1::StationsApi do
 
+
   let(:stations_path) { "/v1/stations" }
   let(:nopoints_stations_path) { "/v1/stations/nopoints" }
   let(:city_stations_path) { "/v1/stations/city" }
@@ -24,7 +25,7 @@ describe V1::StationsApi do
       areas = [area1,area2]
       station = create :station, areas: areas 
 
-      res = json_get station_area_path(station)
+      res = auth_json_get station_area_path(station)
       expect(res.size).to eq(2)
 
     end
@@ -42,7 +43,7 @@ describe V1::StationsApi do
       stations << station
       stations << station1
       city = create :city, stations: stations
-      res = json_get city_stations_path, city_id: city.id 
+      res = auth_json_get city_stations_path, city_id: city.id 
       expect(res.size).to eq(2)
     end
     it "nopoints" do 
@@ -56,7 +57,7 @@ describe V1::StationsApi do
       stations << station
       stations << station1
       city = create :city, stations: stations
-      res = json_get nopoints_stations_path, city_id: city.id 
+      res = auth_json_get nopoints_stations_path, city_id: city.id 
       expect(res.size).to eq(1)
 
     end
@@ -68,7 +69,7 @@ describe V1::StationsApi do
       description = "cca"
       points = create_list :point, 5 
       station = create :station,description:description,  points: points 
-      res = json_get one_stations_path(station) 
+      res = auth_json_get one_stations_path(station) 
       expect(res[:points].size).to eq(5)
       expect(res[:description]).to eq(description)
     end
@@ -84,7 +85,7 @@ describe V1::StationsApi do
       lan = 12.03      
       long = 12.05      
       points = [{lantitude:13.10,longitude: 45.31},{lantitude: 34.2,longitude: 23.3}]
-      res = json_post stations_path, description: description, address: address, lantitude: lan, longitude: long, points: points, stationable_id: stationable_id, stationable_type: stationable_type
+      res = auth_json_post stations_path, description: description, address: address, lantitude: lan, longitude: long, points: points, stationable_id: stationable_id, stationable_type: stationable_type
       
       expect(res[:description]).to eq(description)
       expect(res[:lantitude]).to eq(lan)
@@ -103,7 +104,7 @@ describe V1::StationsApi do
       ps = create_list :point, 5
       station = create :station, description: "sss", address: "s23", points: ps 
 
-      res = json_put one_stations_path(station), description: description, address: address, lantitude: lan, longitude: long, points: points
+      res = auth_json_put one_stations_path(station), description: description, address: address, lantitude: lan, longitude: long, points: points
       expect(res[:points].size).to eq(2)
       expect(res[:description]).to eq(description)
       expect(res[:lantitude]).to eq(lan)
@@ -120,7 +121,7 @@ describe V1::StationsApi do
       ps = create_list :point, 5
       station = create :station, description: "sss", address: "s23", points: ps 
 
-      res = json_put one_stations_path(station), description: description
+      res = auth_json_put one_stations_path(station), description: description
       expect(res[:points].size).to eq(5)
       expect(res[:description]).to eq(description)
 
@@ -140,7 +141,7 @@ describe V1::StationsApi do
       areas = [area,area1] 
       station = create :station, areas: areas, points: points1 
 
-      res = data_delete one_stations_path(station), id: station.id 
+      res = auth_data_delete one_stations_path(station), id: station.id 
       expect(Area.all.size).to eq(0)
       expect(Point.all.size).to eq(0)
       expect(Station.all.size).to eq(0)

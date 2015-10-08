@@ -12,6 +12,10 @@ module RackTestHelpers
   def current_token
     @token ||= AuthToken.create user: current_user
   end
+  
+  def current_key
+    @key ||= Key.create  app_key: "123"
+  end
 
   def json_post url, data={}
     post url, data
@@ -29,17 +33,17 @@ module RackTestHelpers
   end
 
   def auth_json_get url, data={}
-    get url, data.merge(auth_token: current_token.value)
+    get url, data.merge(app_key: current_key.app_key)
     JSON.parse last_response.body, symbolize_names: true
   end
 
   def auth_json_post url, data={}
-    post url, data.merge(auth_token: current_token.value)
+    post url,  data.merge(app_key: current_key.app_key)
     JSON.parse last_response.body, symbolize_names: true
   end
 
   def auth_data_post url, data={}
-    post url, data.merge(auth_token: current_token.value)
+    post url,  data.merge(app_key: current_key.app_key)
     p last_response.body
     p last_response.headers
     JSON.parse last_response.body, symbolize_names: true
@@ -54,16 +58,21 @@ module RackTestHelpers
     delete url, data 
     last_response
   end
+  
+  def auth_data_delete url, data={}
+    delete url, data.merge(app_key: current_key.app_key) 
+    last_response
+  end
 
 
 
   def auth_json_put url, data={}
-    put url, data.merge(auth_token: current_token.value)
+    put url,  data.merge(app_key: current_key.app_key)
     JSON.parse last_response.body, symbolize_names: true
   end
 
   def auth_json_delete url, data={}
-    delete url, data.merge(auth_token: current_token.value)
+    delete url,  data.merge(app_key: current_key.app_key)
     JSON.parse last_response.body, symbolize_names: true
   end
 end

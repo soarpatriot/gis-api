@@ -9,6 +9,7 @@ class ServiceApplication < Grape::API
 
   use Rack::Cors do
     allow do
+      
       origins '*'
       resource '*', headers: :any, methods: [:get, :put, :post, :options, :delete]
     end

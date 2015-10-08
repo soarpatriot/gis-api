@@ -1,6 +1,13 @@
 class V1::ProvincesApi < Grape::API
 
+  before do 
+    key_authenticate!
+  end 
+  params do 
+    requires :app_key, type: String
+  end
   namespace :provinces do
+    
     desc "获取省下市", {
       entity: CityEntity
     }

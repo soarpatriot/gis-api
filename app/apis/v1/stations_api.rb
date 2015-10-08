@@ -1,6 +1,12 @@
 class V1::StationsApi < Grape::API
-
+  before do 
+    key_authenticate!
+  end 
+  params do 
+    requires :app_key, type: String
+  end
   namespace :stations do
+
     desc "获取city 下 station", {
       entity: StationEntity
     }

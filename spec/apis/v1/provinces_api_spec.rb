@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe V1::CommissionsApi do
+describe V1::ProvincesApi do
 
   def province_cities_path province 
     "v1/provinces/#{province.id}/cities"
@@ -14,7 +14,7 @@ describe V1::CommissionsApi do
 
       province = create :province, cities: cities
       province1 = create :province, cities: cities1
-      res = json_get province_cities_path(province), id: province.id 
+      res = auth_json_get province_cities_path(province), id: province.id 
       expect(res.size).to eq(2)
     end
   end

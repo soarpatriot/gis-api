@@ -15,7 +15,9 @@ describe V1::AreasApi do
       points = [{lantitude:13.10,longitude: 45.31},{lantitude: 34.2,longitude: 23.3}]
       label = "aa"
       station = create :station 
-      res = json_post areas_path, label:label, points: points, station_id: station.id, commission_id: commission.id
+      res = auth_json_post areas_path, label:label, points: points, station_id: station.id, commission_id: commission.id
+      
+     
       expect(res[:commission_id]).to eq(commission.id)
       expect(res[:label]).to eq(label)
       expect(res[:points].size).to eq(2)
@@ -30,7 +32,7 @@ describe V1::AreasApi do
       points2 = create_list :point, 5
       station = create :station 
       area = create :area, station:station, points: points2, label: "abc", commission: commission
-      res = json_put update_area_path(area), label:label, points: points, station_id: station.id, commission_id: commission.id
+      res = auth_json_put update_area_path(area), label:label, points: points, station_id: station.id, commission_id: commission.id
       expect(res[:label]).to eq(label)
       expect(res[:points].size).to eq(2)
     end
@@ -41,7 +43,7 @@ describe V1::AreasApi do
       points2 = create_list :point, 5
       station = create :station 
       area = create :area, station:station, points: points2, label: "abc"
-      res = data_delete update_area_path(area), id: area.id 
+      res = auth_data_delete update_area_path(area), id: area.id 
       expect(Point.all.size).to eq(0)
     end
   end
@@ -73,7 +75,7 @@ describe V1::AreasApi do
       station = create :station, description: "aa" 
       commission = create :commission, price: 1
       area = create :area, station:station, points: points, label: "abc", commission: commission
-      res = json_get areas_commission_path, station_name: "aa", lantitude: test_point[:lantitude], longitude: test_point[:longitude] 
+      res = auth_json_get areas_commission_path, station_name: "aa", lantitude: test_point[:lantitude], longitude: test_point[:longitude] 
       expect(res[:message]).to eq(I18n.t("area.commission_success"))
       expect(res[:status]).to eq(0)
       expect(res[:price]).to eq(1.0)
@@ -101,7 +103,7 @@ describe V1::AreasApi do
       commission = create :commission, price: 1
       area = create :area, station:station, points: points, label: "abc", commission: commission
 
-      res = json_get areas_commission_path, station_name: "aa", lantitude: test_point3[:lantitude], longitude: test_point3[:longitude] 
+      res = auth_json_get areas_commission_path, station_name: "aa", lantitude: test_point3[:lantitude], longitude: test_point3[:longitude] 
       expect(res[:message]).to eq(I18n.t("area.address_not_in_station"))
       expect(res[:status]).to eq(3)
       expect(res[:price]).to eq(-1)
@@ -127,7 +129,7 @@ describe V1::AreasApi do
       station = create :station, description: "aa" 
       commission = create :commission, price: 1
 
-      res = json_get areas_commission_path, station_name: "aa", lantitude: test_point3[:lantitude], longitude: test_point3[:longitude] 
+      res = auth_json_get areas_commission_path, station_name: "aa", lantitude: test_point3[:lantitude], longitude: test_point3[:longitude] 
       expect(res[:message]).to eq(I18n.t("area.not_exist"))
       expect(res[:status]).to eq(2)
       expect(res[:price]).to eq(-1)
@@ -144,7 +146,7 @@ describe V1::AreasApi do
       station = create :station, description: "aa" 
       commission = create :commission, price: 1
       area = create :area, station:station, label: "abc", commission: commission
-      res = json_get areas_commission_path, station_name: "bb", lantitude: test_point3[:lantitude], longitude: test_point3[:longitude] 
+      res = auth_json_get areas_commission_path, station_name: "bb", lantitude: test_point3[:lantitude], longitude: test_point3[:longitude] 
       expect(res[:status]).to eq(1)
       expect(res[:message]).to eq(I18n.t("area.station_not_exist"))
       expect(res[:price]).to eq(-1)
@@ -167,12 +169,12 @@ describe V1::AreasApi do
            lat = row[3]
            startTime = Time.now
            
-          url = "http://localhost:9000/v1/areas/commission.json?station_name=#{description}&lantitude=#{lat}&longitude=#{lng}"
+          # url = "http://localhost:9000/v1/areas/commission.json?station_name=#{description}&lantitude=#{lat}&longitude=#{lng}"
            # url = "http://api.cityhub.me/v1/areas/commission.json?station_name=#{description}&lantitude=#{lat}&longitude=#{lng}"
            # url = "https://api-commission.wuliusys.com/v1/areas/commission.json?station_name=#{description}&lantitude=#{lat}&longitude=#{lng}"
-           File.open("/Users/liuhaibao/local.txt", "a+") do | f | 
-              f.puts url
-           end
+           #File.open("/Users/liuhaibao/local.txt", "a+") do | f | 
+           #   f.puts url
+           #end
          
 
           #  response = RestClient.get 'http://api.cityhub.me/v1/areas/commission.json', {:params => {:station_name => description, :lantitude => lat, :longitude=> lng}}
