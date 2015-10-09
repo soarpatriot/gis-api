@@ -7,9 +7,9 @@ module AccessHelper
   
   def key_authenticate!
     origin = env["HTTP_ORIGIN"]
-    error!("4011", 401) if params[:app_key].nil?
+    error!("4011", 401) if params[:api_key].nil?
     #origin = env["HTTP_ORIGIN"]
-    error!("4012", 401) if Key.where(origin: origin,app_key: params[:app_key]).first.nil?
+    error!("4012", 401) if Key.where(origin: origin,api_key: params[:api_key]).first.nil?
   end
 
   def current_user

@@ -157,17 +157,17 @@ describe V1::AreasApi do
   context "test commission api" do 
 
     it "perform" do
-       Spreadsheet.client_encoding = 'UTF-8'
-       province_file = "#{G2.config.root_dir}/lib/assets/p.xls"
-       province_book = Spreadsheet.open province_file
-       province_sheet = province_book.worksheet 0
+       # Spreadsheet.client_encoding = 'UTF-8'
+       #province_file = "#{G2.config.root_dir}/lib/assets/p.xls"
+       #province_book = Spreadsheet.open province_file
+       #province_sheet = province_book.worksheet 0
    
-      province_sheet.each_with_index do |row,index |
-        if index >= 1
-           description = row[1].strip
-           lng = row[2]
-           lat = row[3]
-           startTime = Time.now
+      #province_sheet.each_with_index do |row,index |
+      #  if index >= 1
+      #     description = row[1].strip
+      #     lng = row[2]
+      #     lat = row[3]
+      #     startTime = Time.now
            
           # url = "http://localhost:9000/v1/areas/commission.json?station_name=#{description}&lantitude=#{lat}&longitude=#{lng}"
            # url = "http://api.cityhub.me/v1/areas/commission.json?station_name=#{description}&lantitude=#{lat}&longitude=#{lng}"
@@ -178,12 +178,12 @@ describe V1::AreasApi do
          
 
           #  response = RestClient.get 'http://api.cityhub.me/v1/areas/commission.json', {:params => {:station_name => description, :lantitude => lat, :longitude=> lng}}
-           endTime = Time.now
+       #    endTime = Time.now
  
           #  puts "#{response} : #{endTime - startTime} " 
 
-        end
-      end
+        #end
+      # end
 
     end
   end    
