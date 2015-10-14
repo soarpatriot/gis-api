@@ -2,7 +2,7 @@
 set :stage, :production
 set :server_name, "api.cityhub.me"
 set :branch, "dev"
-
+set :node_count, 2
 set :server_domain_name, "api.cityhub.me"
 
 set :deploy_to, "/data/www/gis-api"

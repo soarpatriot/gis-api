@@ -3,6 +3,7 @@ set :stage, :production
 set :server_name, "10.230.3.181"
 
 set :server_domain_name, "api-commission.wuliusys.com"
+set :node_count, 8
 
 set :repo_url, "https://github.com/soarpatriot/gis-api.git"
 set :branch, "master"
