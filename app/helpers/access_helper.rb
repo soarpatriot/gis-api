@@ -13,9 +13,9 @@ module AccessHelper
     error!("4012", 401) if key.js? && key.origin != origin  
 
     signature = params[:signature]
-
     if key.server?
-      error!("4013", 401) unless sign(params, key.api_secret) == signature
+      error!("4013", 401) unless sign_params(params, key.api_secret) == signature
+      binding.pry
     end
    
   end
@@ -25,10 +25,16 @@ module AccessHelper
   end
 
   def sign_params params,api_secret
-    sign_str = params.keys.sort.map{ |k,v| "#{k}=#{v}" if k != "signature" }.join("&") + api_secret
-    binding.pry
-    Digest::SHA1.hexdigest(sign_str)
+    Digest::SHA1.hexdigest(sort_params(params) + api_secret)
   end
 
+  def sort_params params
+    sorted_arr = []
+    params.keys.sort.map  do | k |
+      sorted_arr << "#{k}=#{params[k]}" if k != :signature && k != 'signature'  
+    end 
+      
+    sorted_arr.join("&")
+  end
 
 end

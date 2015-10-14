@@ -15,8 +15,8 @@ describe V1::AreasApi do
       points = [{lantitude:13.10,longitude: 45.31},{lantitude: 34.2,longitude: 23.3}]
       label = "aa"
       station = create :station 
+
       res = auth_json_post areas_path, label:label, points: points, station_id: station.id, commission_id: commission.id
-      
      
       expect(res[:commission_id]).to eq(commission.id)
       expect(res[:label]).to eq(label)

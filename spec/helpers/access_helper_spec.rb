@@ -1,14 +1,14 @@
 require 'spec_helper'
 
-describe AccessHelper do 
-
+include AccessHelper
+describe AccessHelper, type: :helper do 
   context "auth" do 
-    it "sign test" do 
-      api_secret = "adfasdfasd"
-      params = {station:"c",a:"b",api_key:"cc"}
-      signature = sign_params(params, api_secret)
-
-      binding.pry
+    it "sort_params test" do 
+      params = {station:"c", a:"b", api_key:"cc",signature:"abcsd"}
+      expect_str = "a=b&api_key=cc&station=c"
+      sorted_str = sort_params(params)
+      
+      expect(sorted_str).to eq(expect_str)
 
       
     end
