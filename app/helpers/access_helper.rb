@@ -10,11 +10,11 @@ module AccessHelper
     error!("4011", 401) if params[:api_key].nil?
     #origin = env["HTTP_ORIGIN"]
     key = Key.where(api_key: params[:api_key]).first
-    Grape::API.logger.info origin 
-    Grape::API.logger.info key.origin
-    Grape::API.logger.info key.js?
-    Grape::API.logger.info key.origin == origin
-    error!("4012", 401) if key.js? && key.origin != origin  
+
+    if key.js?
+      re_key = Key.where(origin: origin, api_key: params[:api_key]).first
+      error!("4012",401) if re_key.nil? or re_key.origin != origin
+    end
     
     if key.server?
       signature = params[:signature]
