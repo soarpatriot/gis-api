@@ -26,7 +26,15 @@ class V1::AreasApi < Grape::API
     end
     post do 
       key_authenticate!
-      area = Area.create label: params[:label], station_id: params[:station_id], commission_id: params[:commission_id], code: params[:code],latitude: params[:latitude], longitude: params[:longitude], distance: params[:distance]
+      area = Area.create(
+        label: params[:label], 
+        station_id: params[:station_id], 
+        commission_id: params[:commission_id],
+        code: params[:code],
+        latitude: params[:latitude],
+        longitude: params[:longitude], 
+        distance: params[:distance]
+      )
       points = params[:points]
       points.each do  |point|
         area.points.create lantitude: point.lantitude, longitude: point.longitude
