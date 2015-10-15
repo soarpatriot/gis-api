@@ -75,7 +75,7 @@ describe V1::AreasApi do
       station = create :station, description: "aa" 
       commission = create :commission, price: 1
       area = create :area, station:station, points: points, label: "abc", commission: commission
-      res = auth_json_get areas_commission_path, station_name: "aa", lantitude: test_point[:lantitude], longitude: test_point[:longitude] 
+      res = json_get areas_commission_path, station_name: "aa", lantitude: test_point[:lantitude], longitude: test_point[:longitude] 
       expect(res[:message]).to eq(I18n.t("area.commission_success"))
       expect(res[:status]).to eq(0)
       expect(res[:price]).to eq(1.0)
@@ -103,7 +103,7 @@ describe V1::AreasApi do
       commission = create :commission, price: 1
       area = create :area, station:station, points: points, label: "abc", commission: commission
 
-      res = auth_json_get areas_commission_path, station_name: "aa", lantitude: test_point3[:lantitude], longitude: test_point3[:longitude] 
+      res = json_get areas_commission_path, station_name: "aa", lantitude: test_point3[:lantitude], longitude: test_point3[:longitude] 
       expect(res[:message]).to eq(I18n.t("area.address_not_in_station"))
       expect(res[:status]).to eq(3)
       expect(res[:price]).to eq(-1)
@@ -129,7 +129,7 @@ describe V1::AreasApi do
       station = create :station, description: "aa" 
       commission = create :commission, price: 1
 
-      res = auth_json_get areas_commission_path, station_name: "aa", lantitude: test_point3[:lantitude], longitude: test_point3[:longitude] 
+      res = json_get areas_commission_path, station_name: "aa", lantitude: test_point3[:lantitude], longitude: test_point3[:longitude] 
       expect(res[:message]).to eq(I18n.t("area.not_exist"))
       expect(res[:status]).to eq(2)
       expect(res[:price]).to eq(-1)
@@ -146,7 +146,7 @@ describe V1::AreasApi do
       station = create :station, description: "aa" 
       commission = create :commission, price: 1
       area = create :area, station:station, label: "abc", commission: commission
-      res = auth_json_get areas_commission_path, station_name: "bb", lantitude: test_point3[:lantitude], longitude: test_point3[:longitude] 
+      res = json_get areas_commission_path, station_name: "bb", lantitude: test_point3[:lantitude], longitude: test_point3[:longitude] 
       expect(res[:status]).to eq(1)
       expect(res[:message]).to eq(I18n.t("area.station_not_exist"))
       expect(res[:price]).to eq(-1)

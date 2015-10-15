@@ -5,18 +5,13 @@ class V1::AreasApi < Grape::API
     end
   end
   
-  before do 
-    key_authenticate!
-  end 
-  params do 
-    requires :api_key, type: String
-  end
   namespace :areas do
     
     desc "创建区域", {
       entity: AreaEntity
     }
     params do 
+      requires :api_key, type: String
       requires :label, type:String 
       requires :station_id, type:Integer 
       optional :commission_id, type: Integer
@@ -26,7 +21,7 @@ class V1::AreasApi < Grape::API
       end
     end
     post do 
-      
+      key_authenticate!
       area = Area.create label: params[:label], station_id: params[:station_id], commission_id: params[:commission_id] 
       points = params[:points]
       points.each do  |point|
@@ -39,6 +34,7 @@ class V1::AreasApi < Grape::API
       entity: AreaEntity
     }
     params do 
+      requires :api_key, type: String
       requires :id, type: Integer 
       optional :label, type:String 
       requires :station_id, type:Integer 
@@ -49,6 +45,7 @@ class V1::AreasApi < Grape::API
       end
     end
     put ":id" do 
+      key_authenticate!
       area = Area.find(params[:id])
       area_params = Hash.new
       area_params[:label] = params[:label] if params[:label]
@@ -76,9 +73,11 @@ class V1::AreasApi < Grape::API
       entity: AreaEntity
     }
     params do 
+      requires :api_key, type: String
       requires :id, type: Integer 
     end
     delete ":id" do 
+      key_authenticate!
       area = Area.destroy(params[:id])
       present area, with: AreaEntity
     end

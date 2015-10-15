@@ -15,7 +15,6 @@ module AccessHelper
     signature = params[:signature]
     if key.server?
       error!("4013", 401) unless sign_params(params, key.api_secret) == signature
-      binding.pry
     end
    
   end
