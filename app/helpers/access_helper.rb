@@ -10,10 +10,14 @@ module AccessHelper
     error!("4011", 401) if params[:api_key].nil?
     #origin = env["HTTP_ORIGIN"]
     key = Key.where(api_key: params[:api_key]).first
+    p origin 
+    p key.origin
+    p key.js?
+    p key.origin == origin
     error!("4012", 401) if key.js? && key.origin != origin  
-
-    signature = params[:signature]
+    
     if key.server?
+      signature = params[:signature]
       error!("4013", 401) unless sign_params(params, key.api_secret) == signature
     end
    
