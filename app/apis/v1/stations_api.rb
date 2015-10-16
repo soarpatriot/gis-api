@@ -104,6 +104,46 @@ class V1::StationsApi < Grape::API
       present station, with: StationEntity
       
     end
+
+    desc "同步station ", {
+      entity: StationEntity
+    } 
+    params do 
+      requires :id, type: Integer
+      optional :description, type:String 
+      optional :lantitude, type:Float 
+      optional :longitude, type:Float
+      optional :address, type:String 
+      optional :points,type:Array do 
+        requires :lantitude
+        requires :longitude
+      end
+    end
+    post ":id/sync" do 
+      station = Station.where(id:params[:id]).first_or_create
+      station_params = Hash.new
+      station_params[:description] = params[:description] if params[:description]
+      station_params[:lantitude] = params[:lantitude] if params[:lantitude]
+      station_params[:longitude] = params[:longitude] if params[:longitude]
+      station_params[:address] = params[:address] if params[:address]
+
+      station.update! station_params
+
+      points = params[:points]
+
+      unless points.nil?
+        ps = []
+        points.each do  |point|
+          p = Point.create lantitude: point.lantitude, longitude: point.longitude 
+          ps << p
+        end 
+        station.points = ps
+        station.save!
+      end
+
+      present station, with: StationEntity
+      
+    end
     
     desc "获取站点下区域", {
       entity: AreaEntity

@@ -14,6 +14,9 @@ describe V1::StationsApi do
   def station_area_path station 
     "/v1/stations/#{station.id}/areas"
   end
+  def station_sync_path id 
+    "/v1/stations/#{id}/sync"
+  end
   
   context "station area" do 
     it "get areas" do 
@@ -128,7 +131,48 @@ describe V1::StationsApi do
     end
  
   end
+  context "sync station" do 
+    it "success update all" do 
+      description = "aaa"
+      address ="bb"      
+      lan = 12.03      
+      long = 12.05      
+      points = [{lantitude:13.10,longitude: 45.31},{lantitude: 34.2,longitude: 23.3}]
 
+      ps = create_list :point, 5
+      station = create :station, description: "sss", address: "s23", points: ps 
+
+      res = auth_json_post station_sync_path(station.id), description: description, address: address, lantitude: lan, longitude: long, points: points
+      expect(res[:points].size).to eq(2)
+      expect(res[:description]).to eq(description)
+      expect(res[:lantitude]).to eq(lan)
+
+    end
+
+    it "create description" do 
+      description = "aaa"
+      id = 12334
+      address ="bb"      
+      lan = 12.03      
+      long = 12.05      
+      points = [{lantitude:13.10,longitude: 45.31},{lantitude: 34.2,longitude: 23.3}]
+
+      ps = create_list :point, 5
+      station = create :station, description: "sss", address: "s23", points: ps 
+
+      res = auth_json_post station_sync_path(id), description: description, points: points, address: address, lantitude: lan, longitude: long
+      expect(res[:points].size).to eq(2)
+      expect(res[:description]).to eq(description)
+      expect(res[:address]).to eq(address)
+      expect(res[:lantitude]).to eq(lan)
+      expect(res[:longitude]).to eq(long)
+      expect(res[:id]).to eq(id)
+
+    end
+ 
+  end
+
+ 
   context "delete statsion" do 
     it "success" do 
 

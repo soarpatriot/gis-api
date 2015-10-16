@@ -83,14 +83,7 @@ describe V1::AreasApi do
       test_point = Hash.new 
       test_point[:lantitude] = 40.0521
       test_point[:longitude] = 116.305
-      test_point2 = Hash.new 
-      test_point2[:lantitude] = 40.0536
-      test_point2[:longitude] = 116.297
-      test_point3 = Hash.new 
-      test_point3[:lantitude] = 40.046897
-      test_point3[:longitude] = 116.299642
-
-
+ 
       points2 = create_list :point, 5
       station = create :station, description: "aa" 
       commission = create :commission, price: 1
