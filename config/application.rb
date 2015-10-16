@@ -1,5 +1,6 @@
 require_relative "boot"
 require_relative "api_v1"
+require_relative "api_v2"
 require "grape-swagger"
 
 I18n.enforce_available_locales = false
@@ -20,7 +21,7 @@ class ServiceApplication < Grape::API
   get do
     {
       name: "api",
-      versions: [:v1]
+      versions: [:v1,:v2]
     }
   end
 
@@ -35,6 +36,7 @@ class ServiceApplication < Grape::API
 
   # paginate per_page: 15
   mount ApiV1
+  mount ApiV2
 
 
   get '/(*:url)', :anchor => false do
