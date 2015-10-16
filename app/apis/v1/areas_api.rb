@@ -16,6 +16,7 @@ class V1::AreasApi < Grape::API
       optional :code, type:String 
       optional :latitude, type:Float 
       optional :longitude, type:Float 
+      optional :mian, type:String 
       optional :distance, type:Integer 
       requires :station_id, type:Integer 
       optional :commission_id, type: Integer
@@ -31,6 +32,7 @@ class V1::AreasApi < Grape::API
         station_id: params[:station_id], 
         commission_id: params[:commission_id],
         code: params[:code],
+        mian: params[:mian],
         latitude: params[:latitude],
         longitude: params[:longitude], 
         distance: params[:distance]
@@ -50,6 +52,7 @@ class V1::AreasApi < Grape::API
       requires :id, type: Integer 
       optional :label, type:String 
       optional :code, type:String 
+      optional :mian, type:String 
       optional :latitude, type:Float 
       optional :longitude, type:Float 
       optional :distance, type:Integer 
@@ -70,6 +73,7 @@ class V1::AreasApi < Grape::API
       area_params[:latitude] = params[:latitude] if params[:latitude]
       area_params[:longitude] = params[:longitude] if params[:longitude]
       area_params[:distance] = params[:distance] if params[:distance]
+      area_params[:mian] = params[:mian] if params[:mian]
       area_params[:commission_id] = params[:commission_id] if params[:commission_id]
 
       area.update! area_params

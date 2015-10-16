@@ -6,6 +6,7 @@ class AreaEntity < Grape::Entity
   expose :code,             documentation: {required: true, type: "String", desc: "区域编码"}
   expose :latitude,             documentation: {required: true, type: "Float", desc: "中心点纬度"}
   expose :longitude,             documentation: {required: true, type: "Float", desc: "中心点经度"}
+  expose :mian,             documentation: {required: true, type: "Float", desc: "面积"}
   expose :distance,             documentation: {required: true, type: "Integer", desc: "距离站区位置"}
   expose :station_id, documentation: {requiree:true, type:"Integer", desc:"站点id"} do |instance|
     instance.station.try(:id)

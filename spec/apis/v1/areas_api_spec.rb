@@ -18,15 +18,20 @@ describe V1::AreasApi do
       latitude = 12.4
       longitude = 23.5667
       distance = 345
- 
+      mian = 23452345.12 
       station = create :station 
 
-      res = auth_json_post areas_path, label:label, points: points, station_id: station.id, commission_id: commission.id, code: code, latitude: latitude, longitude: longitude, distance: distance
+      res = auth_json_post areas_path, label:label, points: points, station_id: station.id, commission_id: commission.id, code: code, latitude: latitude, longitude: longitude, distance: distance, mian: mian
      
       expect(res[:commission_id]).to eq(commission.id)
       expect(res[:label]).to eq(label)
       expect(res[:points].size).to eq(2)
       expect(res[:code]).to eq(code)
+      expect(res[:mian]).to eq(mian.to_s)
+      expect(res[:distance]).to eq(distance)
+      expect(res[:latitude]).to eq(latitude.to_s)
+      expect(res[:longitude]).to eq(longitude.to_s)
+ 
     end
   end
   context "update area" do 
@@ -38,13 +43,18 @@ describe V1::AreasApi do
       latitude = 12.4
       longitude = 23.5667
       distance = 345
+      mian = 67.23
       points2 = create_list :point, 5
       station = create :station 
       area = create :area, station:station, points: points2, label: "abc", commission: commission,code: code
-      res = auth_json_put update_area_path(area), label:label, points: points, station_id: station.id, commission_id: commission.id, latitude: latitude, longitude: longitude, distance: distance
+      res = auth_json_put update_area_path(area), label:label, points: points, station_id: station.id, commission_id: commission.id, latitude: latitude, longitude: longitude, distance: distance, mian: mian
       expect(res[:label]).to eq(label)
       expect(res[:points].size).to eq(2)
       expect(res[:code]).to eq(code)
+      expect(res[:mian]).to eq(mian.to_s)
+      expect(res[:distance]).to eq(distance)
+      expect(res[:latitude]).to eq(latitude.to_s)
+      expect(res[:longitude]).to eq(longitude.to_s)
     end
   end
   context "delete area" do 
