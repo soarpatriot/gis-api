@@ -30,6 +30,7 @@ class ApiV1 < Grape::API
   mount V1::AreasApi
   mount V1::ProvincesApi
   mount V1::OrdersApi
+  mount V1::CitiesApi
 
   add_swagger_documentation  api_version:"v1", base_path: Settings.host
   # http://api.dreamreality.cn/v1/swagger_doc.json   
