@@ -106,7 +106,6 @@ describe V2::AreasApi do
           longitude: test_point[:longitude],
           station_id: station_id,
           order_code: order_number)
-      binding.pry 
       order = Order.first
 
       expect(res[:message]).to eq(I18n.t("area.commission_success"))
