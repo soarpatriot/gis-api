@@ -26,6 +26,7 @@ describe V2::AreasApi do
       expect(res[:label]).to eq(label)
       expect(res[:points].size).to eq(2)
       expect(res[:code]).to eq(code)
+      expect(res[:id]).not_to eq(nil)
       expect(res[:mian]).to eq(mian.to_s)
       expect(res[:distance]).to eq(distance)
       expect(res[:latitude]).to eq(latitude.to_s)
@@ -95,20 +96,26 @@ describe V2::AreasApi do
       station_id = 123 
       order_number = "a23423"
       station_name = "aa" 
+      label = "1231"
+      code = "sdfad"
       commission = create :commission, price: 1
-      area = create :area,  station:station, points: points, label: "abc", commission: commission
+      area = create :area,  station:station, points: points, label: label,code: code, commission: commission
       res = json_get( areas_commission_path, 
           station_name: station_name, 
           lantitude: test_point[:lantitude], 
           longitude: test_point[:longitude],
           station_id: station_id,
           order_code: order_number)
-      
+      binding.pry 
       order = Order.first
 
       expect(res[:message]).to eq(I18n.t("area.commission_success"))
       expect(res[:status]).to eq(0)
       expect(res[:price]).to eq(1.0)
+      expect(res[:label]).to eq(label)
+      expect(res[:code]).to eq(code)
+      expect(res[:id]).to eq(area.id)
+      expect(res[:id]).not_to eq(nil)
       expect(order.code).to eq(order_number)
       expect(order.station_id).to eq(station_id)
       expect(order.station_name).to eq(station_name)

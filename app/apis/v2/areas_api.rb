@@ -140,9 +140,11 @@ class V2::AreasApi < Grape::API
       end 
 
       # startTime = Time.now      
+      found_area = nil
       areas.each do |area| 
         if area.include_point? point
           price =  area.commission.price
+          found_area = area
           flag = true
           break
         end 
@@ -150,7 +152,7 @@ class V2::AreasApi < Grape::API
 
       if flag 
         order.success!
-        return  {status:0, message: I18n.t("area.commission_success"),price: price}
+        return  {status:0, message: I18n.t("area.commission_success"),price: price, label: found_area.label, id: found_area.id, code: found_area.code }
       else
         order.not_in_areas!
         return  {status:3, message: I18n.t("area.address_not_in_station"),price: -1}
