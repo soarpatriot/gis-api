@@ -175,6 +175,7 @@ GEM
     notiffany (0.0.6)
       nenv (~> 0.1)
       shellany (~> 0.0)
+    oneapm_rpm (1.2.7)
     pry (0.10.1)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
@@ -312,6 +313,7 @@ DEPENDENCIES
   i18n
   mini_magick
   mysql2
+  oneapm_rpm
   pry
   rack-cors
   rack-test
