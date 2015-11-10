@@ -142,7 +142,7 @@ describe V1::StationsApi do
       ps = create_list :point, 5
       station = create :station, description: "sss", address: "s23", points: ps 
 
-      res = auth_json_post station_sync_path(station.id), description: description, address: address, lantitude: lan, longitude: long, points: points
+      res = json_post station_sync_path(station.id), description: description, address: address, lantitude: lan, longitude: long, points: points
       expect(res[:points].size).to eq(2)
       expect(res[:description]).to eq(description)
       expect(res[:lantitude]).to eq(lan)

@@ -1,19 +1,15 @@
 class V1::StationsApi < Grape::API
-  before do 
-    key_authenticate!
-  end 
-  params do 
-    requires :api_key, type: String
-  end
   namespace :stations do
 
     desc "获取city 下 station", {
       entity: StationEntity
     }
-    params do
+    params do 
       requires :city_id, type: Integer
+      requires :api_key, type: String
     end
     get "city" do
+      key_authenticate!
       stations = City.find(params[:city_id]).stations
       present stations, with: StationEntity
     end
@@ -21,10 +17,13 @@ class V1::StationsApi < Grape::API
     desc "获取city 下没有画好的 station", {
       entity: StationEntity
     }
-    params do
+    params do 
       requires :city_id, type: Integer
+      requires :api_key, type: String
     end
+ 
     get "nopoints" do
+      key_authenticate!
       stations = Station.where(stationable_id:params[:city_id],stationable_type:"City").includes(:points).where(points:{pointable_id:nil})
       present stations, with: StationEntity
     end
@@ -32,10 +31,13 @@ class V1::StationsApi < Grape::API
     desc "获取station", {
       entity: StationEntity
     }
-    params do
+    params do 
       requires :id, type: String
+      requires :api_key, type: String
     end
+ 
     get ":id" do
+      key_authenticate!
       station = Station.find(params[:id])
       present station, with: StationEntity
     end
@@ -44,6 +46,7 @@ class V1::StationsApi < Grape::API
       entity: StationEntity
     } 
     params do 
+      requires :api_key, type: String
       optional :description, type:String 
       requires :stationable_id, type:String 
       requires :stationable_type, type:String 
@@ -57,6 +60,7 @@ class V1::StationsApi < Grape::API
  
     end
     post do 
+      key_authenticate!
       station = Station.create description: params[:description], lantitude: params[:lantitude], longitude: params[:longitude], address: params[:address], stationable_id: params[:stationable_id], stationable_type: params[:stationable_type] 
       points = params[:points]
       points.each do  |point|
@@ -69,6 +73,7 @@ class V1::StationsApi < Grape::API
       entity: StationEntity
     } 
     params do 
+      requires :api_key, type: String
       requires :id, type: Integer
       optional :description, type:String 
       optional :lantitude, type:Float 
@@ -80,6 +85,7 @@ class V1::StationsApi < Grape::API
       end
     end
     put ":id" do 
+      key_authenticate!
       station = Station.find(params[:id])
       station_params = Hash.new
       station_params[:description] = params[:description] if params[:description]
@@ -148,10 +154,14 @@ class V1::StationsApi < Grape::API
     desc "获取站点下区域", {
       entity: AreaEntity
     }
-    params do
+    params do 
+      requires :api_key, type: String
+ 
       requires :id, type: Integer 
     end
+ 
     get ":id/areas" do
+      key_authenticate!
       areas = Station.find(params[:id]).areas
       present areas, with: AreaEntity
     end
@@ -161,9 +171,12 @@ class V1::StationsApi < Grape::API
       entity: StationEntity
     }
     params do 
+      requires :api_key, type: String
+ 
       requires :id, type: Integer 
     end
     delete ":id" do 
+      key_authenticate!
       station = Station.destroy(params[:id])
       present station, with: StationEntity
     end
