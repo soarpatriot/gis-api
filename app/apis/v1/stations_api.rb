@@ -116,6 +116,7 @@ class V1::StationsApi < Grape::API
     } 
     params do 
       requires :id, type: Integer
+      optional :city_id, type:Integer 
       optional :description, type:String 
       optional :lantitude, type:Float 
       optional :longitude, type:Float
@@ -127,6 +128,7 @@ class V1::StationsApi < Grape::API
     end
     post ":id/sync" do 
       station = Station.where(id:params[:id]).first_or_create
+      city = City.where(id:params[:city_id]).first if params[:city_id]
       station_params = Hash.new
       station_params[:description] = params[:description] if params[:description]
       station_params[:lantitude] = params[:lantitude] if params[:lantitude]
@@ -144,6 +146,7 @@ class V1::StationsApi < Grape::API
           ps << p
         end 
         station.points = ps
+        station.stationable = city unless city.nil?
         station.save!
       end
 

@@ -4,6 +4,14 @@ class V1::AreasApi < Grape::API
        V1::AreasApi.logger
     end
   end
+
+  before do 
+    key_authenticate!
+  end 
+  params do 
+    requires :signature, type:String
+    requires :api_key, type: String
+  end
   
   namespace :areas do
     
@@ -11,7 +19,6 @@ class V1::AreasApi < Grape::API
       entity: AreaEntity
     }
     params do 
-      requires :api_key, type: String
       requires :label, type:String 
       optional :code, type:String 
       optional :latitude, type:Float 
@@ -26,7 +33,6 @@ class V1::AreasApi < Grape::API
       end
     end
     post do 
-      key_authenticate!
       area = Area.create(
         label: params[:label], 
         station_id: params[:station_id], 
@@ -48,7 +54,6 @@ class V1::AreasApi < Grape::API
       entity: AreaEntity
     }
     params do 
-      requires :api_key, type: String
       requires :id, type: Integer 
       optional :label, type:String 
       optional :code, type:String 
@@ -65,7 +70,6 @@ class V1::AreasApi < Grape::API
       end
     end
     put ":id" do 
-      key_authenticate!
       area = Area.find(params[:id])
       area_params = Hash.new
       area_params[:label] = params[:label] if params[:label]
@@ -98,11 +102,9 @@ class V1::AreasApi < Grape::API
       entity: AreaEntity
     }
     params do 
-      requires :api_key, type: String
       requires :id, type: Integer 
     end
     delete ":id" do 
-      key_authenticate!
       area = Area.destroy(params[:id])
       present area, with: AreaEntity
     end

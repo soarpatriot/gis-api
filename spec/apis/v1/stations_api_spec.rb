@@ -169,7 +169,30 @@ describe V1::StationsApi do
       expect(res[:id]).to eq(id)
 
     end
+
+    it "sync with city" do 
+      city = create :city 
+      description = "aaa"
+      id = 12334
+      address ="bb"      
+      lan = 12.03      
+      long = 12.05      
+      points = [{lantitude:13.10,longitude: 45.31},{lantitude: 34.2,longitude: 23.3}]
+
+      ps = create_list :point, 5
+      station = create :station, description: "sss", address: "s23", points: ps 
+      res = auth_json_post station_sync_path(id), description: description, points: points, address: address, lantitude: lan, longitude: long, city_id: city.id
+      expect(res[:points].size).to eq(2)
+      expect(res[:description]).to eq(description)
+      expect(res[:address]).to eq(address)
+      expect(res[:lantitude]).to eq(lan)
+      expect(res[:longitude]).to eq(long)
+      expect(res[:id]).to eq(id)
+      
+      loaded_station = Station.find(id).reload
+      expect(loaded_station.stationable.id).to eq(city.id)
  
+    end 
   end
 
  
