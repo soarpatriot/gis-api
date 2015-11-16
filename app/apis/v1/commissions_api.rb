@@ -4,7 +4,7 @@ class V1::CommissionsApi < Grape::API
     key_authenticate!
   end 
   params do 
-    requires :signature, type:String
+    optional :signature, type:String
     requires :api_key, type: String
   end
   namespace :commissions do

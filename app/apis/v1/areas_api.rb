@@ -9,7 +9,7 @@ class V1::AreasApi < Grape::API
     key_authenticate!
   end 
   params do 
-    requires :signature, type:String
+    optional :signature, type:String
     requires :api_key, type: String
   end
   

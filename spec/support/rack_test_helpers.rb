@@ -42,7 +42,7 @@ module RackTestHelpers
   def auth_json_post url, data={}
     temp_data = data.merge(api_key: current_key.api_key)
     signature  = sign_params temp_data,current_key.api_secret 
-    post url, data.merge(api_key: current_key.api_key,signature: signature)
+    post url, data.merge(api_key: current_key.api_key,signature: signature).to_json, {"CONTENT_TYPE"=> 'application/json'}
  
     JSON.parse last_response.body, symbolize_names: true
   end
@@ -50,7 +50,7 @@ module RackTestHelpers
   def auth_data_post url, data={}
     temp_data = data.merge(api_key: current_key.api_key)
     signature  = sign_params temp_data,current_key.api_key 
-    post url, data.merge(api_key:current_key.api_key,signature: signature)
+    post url, data.merge(api_key:current_key.api_key,signature: signature).to_json, {"CONTENT_TYPE"=> 'application/json'}
  
     p last_response.body
     p last_response.headers
@@ -70,7 +70,7 @@ module RackTestHelpers
   def auth_data_delete url, data={}
     temp_data = data.merge(api_key: current_key.api_key)
     signature  = sign_params temp_data,current_key.api_secret 
-    delete url, data.merge(api_key:current_key.api_key,signature: signature)
+    delete url, data.merge(api_key:current_key.api_key,signature: signature).to_json, {"CONTENT_TYPE"=> 'application/json'}
  
     last_response
   end
@@ -80,7 +80,7 @@ module RackTestHelpers
   def auth_json_put url, data={}
     temp_data = data.merge(api_key: current_key.api_key)
     signature  = sign_params temp_data,current_key.api_key 
-    put url, data.merge(api_key:current_key.api_key,signature: signature)
+    put url, data.merge(api_key:current_key.api_key,signature: signature).to_json, {"CONTENT_TYPE"=> 'application/json'}
  
     JSON.parse last_response.body, symbolize_names: true
   end
@@ -88,7 +88,7 @@ module RackTestHelpers
   def auth_json_delete url, data={}
     temp_data = data.merge(api_key: current_key.api_key)
     signature  = sign_params temp_data,current_key.api_key 
-    delete url, data.merge(api_key:current_key.api_key,signature: signature)
+    delete url, data.merge(api_key:current_key.api_key,signature: signature).to_json, {"CONTENT_TYPE"=> 'application/json'}
  
     JSON.parse last_response.body, symbolize_names: true
   end

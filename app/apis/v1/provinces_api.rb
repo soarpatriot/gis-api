@@ -4,6 +4,7 @@ class V1::ProvincesApi < Grape::API
     key_authenticate!
   end 
   params do 
+    optional :signature, type:String
     requires :api_key, type: String
   end
   namespace :provinces do

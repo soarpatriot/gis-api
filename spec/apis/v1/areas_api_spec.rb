@@ -36,6 +36,7 @@ describe V1::AreasApi do
   end
   context "update area" do 
     it "success" do
+      
       commission = create :commission 
       points = [{lantitude:13.10,longitude: 45.31},{lantitude: 34.2,longitude: 23.3}]
       label = "aa"
@@ -47,6 +48,7 @@ describe V1::AreasApi do
       points2 = create_list :point, 5
       station = create :station 
       area = create :area, station:station, points: points2, label: "abc", commission: commission,code: code
+
       res = auth_json_put update_area_path(area), label:label, points: points, station_id: station.id, commission_id: commission.id, latitude: latitude, longitude: longitude, distance: distance, mian: mian
       expect(res[:label]).to eq(label)
       expect(res[:points].size).to eq(2)
