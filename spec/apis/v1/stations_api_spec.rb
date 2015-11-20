@@ -28,7 +28,7 @@ describe V1::StationsApi do
       areas = [area1,area2]
       station = create :station, areas: areas 
 
-      res = auth_json_get station_area_path(station)
+      res = auth_json_get station_area_path(station), id:station.id
       expect(res.size).to eq(2)
 
     end
@@ -72,7 +72,7 @@ describe V1::StationsApi do
       description = "cca"
       points = create_list :point, 5 
       station = create :station,description:description,  points: points 
-      res = auth_json_get one_stations_path(station) 
+      res = auth_json_get one_stations_path(station), id:station.id 
       expect(res[:points].size).to eq(5)
       expect(res[:description]).to eq(description)
     end
@@ -88,8 +88,10 @@ describe V1::StationsApi do
       lan = 12.03      
       long = 12.05      
       points = [{lantitude:13.10,longitude: 45.31},{lantitude: 34.2,longitude: 23.3}]
-      res = auth_json_post stations_path, description: description, address: address, lantitude: lan, longitude: long, points: points, stationable_id: stationable_id, stationable_type: stationable_type
-      
+      res = auth_json_post stations_path, 
+        description: description, address: address, 
+        lantitude: lan, longitude: long, points: points.to_json, 
+        stationable_id: stationable_id, stationable_type: stationable_type
       expect(res[:description]).to eq(description)
       expect(res[:lantitude]).to eq(lan)
 
@@ -107,7 +109,10 @@ describe V1::StationsApi do
       ps = create_list :point, 5
       station = create :station, description: "sss", address: "s23", points: ps 
 
-      res = auth_json_put one_stations_path(station), description: description, address: address, lantitude: lan, longitude: long, points: points
+      res = auth_json_put one_stations_path(station),
+        id: station.id,
+        description: description, address: address, 
+        lantitude: lan, longitude: long, points: points.to_json
       expect(res[:points].size).to eq(2)
       expect(res[:description]).to eq(description)
       expect(res[:lantitude]).to eq(lan)
@@ -124,7 +129,9 @@ describe V1::StationsApi do
       ps = create_list :point, 5
       station = create :station, description: "sss", address: "s23", points: ps 
 
-      res = auth_json_put one_stations_path(station), description: description
+      res = auth_json_put one_stations_path(station), 
+        id: station.id,
+        description: description
       expect(res[:points].size).to eq(5)
       expect(res[:description]).to eq(description)
 
@@ -142,7 +149,11 @@ describe V1::StationsApi do
       ps = create_list :point, 5
       station = create :station, description: "sss", address: "s23", points: ps 
 
-      res = json_post station_sync_path(station.id), description: description, address: address, lantitude: lan, longitude: long, points: points
+      res = auth_json_post station_sync_path(station.id), 
+        id: station.id,
+        description: description, 
+        address: address, lantitude: lan, longitude: long, 
+        points: points.to_json
       expect(res[:points].size).to eq(2)
       expect(res[:description]).to eq(description)
       expect(res[:lantitude]).to eq(lan)
@@ -160,7 +171,11 @@ describe V1::StationsApi do
       ps = create_list :point, 5
       station = create :station, description: "sss", address: "s23", points: ps 
 
-      res = auth_json_post station_sync_path(id), description: description, points: points, address: address, lantitude: lan, longitude: long
+      res = auth_json_post station_sync_path(id), 
+        id: station.id,
+        description: description, 
+        points: points.to_json, 
+        address: address, lantitude: lan, longitude: long
       expect(res[:points].size).to eq(2)
       expect(res[:description]).to eq(description)
       expect(res[:address]).to eq(address)
@@ -181,7 +196,11 @@ describe V1::StationsApi do
 
       ps = create_list :point, 5
       station = create :station, description: "sss", address: "s23", points: ps 
-      res = auth_json_post station_sync_path(id), description: description, points: points, address: address, lantitude: lan, longitude: long, city_id: city.id
+      res = auth_json_post station_sync_path(id), 
+        id: station.id,
+        description: description, 
+        points: points.to_json, address: address, 
+        lantitude: lan, longitude: long, city_id: city.id
       expect(res[:points].size).to eq(2)
       expect(res[:description]).to eq(description)
       expect(res[:address]).to eq(address)

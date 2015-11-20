@@ -12,7 +12,7 @@ describe V1::CitiesApi do
     it "one" do 
       districts = create_list :district, 10
       city = create :city, districts: districts 
-      res = auth_json_get city_districts_path(city)
+      res = auth_json_get city_districts_path(city), id: city.id
       expect(res.size).to eq(10)
     end
   end 
