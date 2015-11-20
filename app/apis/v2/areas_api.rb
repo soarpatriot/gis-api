@@ -121,7 +121,7 @@ class V2::AreasApi < Grape::API
       point = Hash.new 
       point[:lantitude] = params[:lantitude]
       point[:longitude] = params[:longitude]
-      station = Station.where(description: params[:station_name]).try(:first) 
+      station = Station.where(id: params[:station_id]).try(:first) 
       
       flag = false
       order = Order.first_or_create(station_id: params[:station_id],code: params[:order_code])
@@ -145,6 +145,7 @@ class V2::AreasApi < Grape::API
         if area.include_point? point
           price =  area.commission.price
           found_area = area
+          order.update area_id: area.id
           flag = true
           break
         end 

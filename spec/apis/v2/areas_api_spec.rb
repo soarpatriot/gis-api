@@ -101,10 +101,10 @@ describe V2::AreasApi do
       commission = create :commission, price: 1
       area = create :area,  station:station, points: points, label: label,code: code, commission: commission
       res = json_get( areas_commission_path, 
-          station_name: station_name, 
+          station_name: station.description, 
           lantitude: test_point[:lantitude], 
           longitude: test_point[:longitude],
-          station_id: station_id,
+          station_id: station.id,
           order_code: order_number)
       order = Order.first
 
@@ -116,8 +116,8 @@ describe V2::AreasApi do
       expect(res[:id]).to eq(area.id)
       expect(res[:id]).not_to eq(nil)
       expect(order.code).to eq(order_number)
-      expect(order.station_id).to eq(station_id)
-      expect(order.station_name).to eq(station_name)
+      expect(order.station_id).to eq(station.id)
+      expect(order.station_name).to eq(station.description)
       expect(order.latitude).to eq(test_point[:lantitude])
       expect(order.longitude).to eq(test_point[:longitude])
       expect(order.success?).to eq(true)
@@ -144,7 +144,6 @@ describe V2::AreasApi do
       station = create :station, description: "aa" 
       station_id = 123 
       order_number = "a23423"
-      station_name = "bb"
  
       commission = create :commission, price: 1
       area = create :area, station:station, points: points, label: "abc", commission: commission
@@ -154,7 +153,7 @@ describe V2::AreasApi do
         station_name: station.description, 
         lantitude: test_point3[:lantitude], 
         longitude: test_point3[:longitude],
-        station_id: station_id,
+        station_id: station.id,
         order_code: order_number)
  
       expect(res[:message]).to eq(I18n.t("area.address_not_in_station"))
@@ -163,7 +162,7 @@ describe V2::AreasApi do
 
       order = Order.first
       expect(order.code).to eq(order_number)
-      expect(order.station_id).to eq(station_id)
+      expect(order.station_id).to eq(station.id)
       expect(order.station_name).to eq(station.description)
       expect(order.latitude).to eq(test_point3[:lantitude])
       expect(order.longitude).to eq(test_point3[:longitude])
@@ -192,7 +191,6 @@ describe V2::AreasApi do
       commission = create :commission, price: 1
       station_id = 123 
       order_number = "a23423"
-      station_name = "bb"
  
  
       res = json_get( 
@@ -200,7 +198,7 @@ describe V2::AreasApi do
         station_name: station.description, 
         lantitude: test_point3[:lantitude], 
         longitude: test_point3[:longitude],
-        station_id: station_id,
+        station_id: station.id,
         order_code: order_number)
  
       expect(res[:message]).to eq(I18n.t("area.not_exist"))
@@ -209,7 +207,7 @@ describe V2::AreasApi do
 
       order = Order.first
       expect(order.code).to eq(order_number)
-      expect(order.station_id).to eq(station_id)
+      expect(order.station_id).to eq(station.id)
       expect(order.station_name).to eq(station.description)
       expect(order.latitude).to eq(test_point3[:lantitude])
       expect(order.longitude).to eq(test_point3[:longitude])
