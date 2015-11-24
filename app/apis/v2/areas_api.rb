@@ -124,7 +124,7 @@ class V2::AreasApi < Grape::API
       station = Station.where(id: params[:station_id]).try(:first) 
       
       flag = false
-      order = Order.first_or_create(station_id: params[:station_id],code: params[:order_code])
+      order = Order.where(station_id: params[:station_id],code: params[:order_code]).first_or_create
       order.update latitude: params[:lantitude], longitude: params[:longitude], station_name: params[:station_name]
       order.increase_for "count"
      

@@ -258,37 +258,63 @@ describe V2::AreasApi do
  
   end
 
-  context "test commission api" do 
+  context "station order" do 
 
-    it "perform" do
-       # Spreadsheet.client_encoding = 'UTF-8'
-       #province_file = "#{G2.config.root_dir}/lib/assets/p.xls"
-       #province_book = Spreadsheet.open province_file
-       #province_sheet = province_book.worksheet 0
-   
-      #province_sheet.each_with_index do |row,index |
-      #  if index >= 1
-      #     description = row[1].strip
-      #     lng = row[2]
-      #     lat = row[3]
-      #     startTime = Time.now
-           
-          # url = "http://localhost:9000/v1/areas/commission.json?station_name=#{description}&lantitude=#{lat}&longitude=#{lng}"
-           # url = "http://api.cityhub.me/v1/areas/commission.json?station_name=#{description}&lantitude=#{lat}&longitude=#{lng}"
-           # url = "https://api-commission.wuliusys.com/v1/areas/commission.json?station_name=#{description}&lantitude=#{lat}&longitude=#{lng}"
-           #File.open("/Users/liuhaibao/local.txt", "a+") do | f | 
-           #   f.puts url
-           #end
-         
+    it "more order" do
+      point1 = create :point, lantitude: 40.0536, longitude: 116.297
+      point2 = create :point, lantitude: 40.0497, longitude: 116.298 
+      point3 = create :point, lantitude: 40.0464, longitude: 116.303 
+      point4 = create :point, lantitude: 40.0475, longitude: 116.311 
+      point5 = create :point, lantitude: 40.0511, longitude: 116.311 
+      point6 = create :point, lantitude: 40.0547, longitude: 116.308 
+      point7 = create :point, lantitude: 40.055, longitude: 116.307 
 
-          #  response = RestClient.get 'http://api.cityhub.me/v1/areas/commission.json', {:params => {:station_name => description, :lantitude => lat, :longitude=> lng}}
-       #    endTime = Time.now
- 
-          #  puts "#{response} : #{endTime - startTime} " 
+      points = [point1,point2,point3,point4,point5,point6,point7]
 
-        #end
-      # end
+      test_point = Hash.new 
+      test_point[:lantitude] = 40.0521
+      test_point[:longitude] = 116.305
+      test_point2 = Hash.new 
+      test_point2[:lantitude] = 40.0536
+      test_point2[:longitude] = 116.297
+      test_point3 = Hash.new 
+      test_point3[:lantitude] = 40.046897
+      test_point3[:longitude] = 116.299642
 
+
+      points2 = create_list :point, 5
+      station = create :station, description: "aa" 
+
+      station1 = create :station, description: "bbbcc"
+
+      order_number = "a23423"
+      label = "1231"
+      code = "sdfad"
+      commission = create :commission, price: 1
+      area = create :area,  station:station, points: points, label: label,code: code, commission: commission
+      res = json_get( areas_commission_path, 
+          station_name: station.description, 
+          lantitude: test_point[:lantitude], 
+          longitude: test_point[:longitude],
+          station_id: station.id,
+          order_code: order_number)
+
+      res1 = json_get( areas_commission_path, 
+          station_name: station1.description, 
+          lantitude: test_point[:lantitude], 
+          longitude: test_point[:longitude],
+          station_id: station1.id,
+          order_code: order_number)
+      
+      order_count = Order.count
+      expect(order_count).to eq(2)
+
+      expect(res[:message]).to eq(I18n.t("area.commission_success"))
+      expect(res[:status]).to eq(0)
+      expect(res[:price]).to eq(1.0)
+      expect(res[:label]).to eq(label)
+      expect(res[:code]).to eq(code)
+      expect(res[:id]).to eq(area.id)
     end
   end    
 
