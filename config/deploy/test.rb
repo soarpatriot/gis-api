@@ -1,11 +1,14 @@
+set :stage, :production
+set :server_name, "10.3.47.62"
 
-set :stage, :test
-set :server_name, "test.tingfangyan.com"
+set :server_domain_name, "api-commission.wltest.com"
+set :node_count, 8
 
-set :branch, "dev"
-set :deploy_to, "/data/www/dialect-api"
+set :repo_url, 'git@git.rfdoa.cn:java/price.git'
+set :branch, "master"
+set :deploy_to, "/data/www/gis-api"
 
-set :thin_pid, "#{shared_path}/tmp/pids/thin.0.pid"
 set :god_pid, "#{shared_path}/tmp/pids/god.pid"
 
-server fetch(:server_name), user: "soar", roles: %w{web app db}
+server fetch(:server_name), user: "deploy", roles: %w{web app db}
+
