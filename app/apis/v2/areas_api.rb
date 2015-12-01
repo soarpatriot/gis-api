@@ -117,11 +117,12 @@ class V2::AreasApi < Grape::API
       requires :longitude, type: Float
     end
     get "commission" do 
+
       price = -1
       point = Hash.new 
       point[:lantitude] = params[:lantitude]
       point[:longitude] = params[:longitude]
-      station = Station.where(id: params[:station_id]).try(:first) 
+      station = Station.includes(areas:[:points,:commission]).where(id: params[:station_id]).try(:first) 
       
       flag = false
       order = Order.where(station_id: params[:station_id],code: params[:order_code]).first_or_create
@@ -139,8 +140,8 @@ class V2::AreasApi < Grape::API
         return  {status:2, message: I18n.t("area.not_exist"),price: -1}
       end 
 
-      # startTime = Time.now      
       found_area = nil
+      flag = false
       areas.each do |area| 
         if area.include_point? point
           price =  area.commission.price
@@ -150,12 +151,15 @@ class V2::AreasApi < Grape::API
           break
         end 
       end 
-
+      # logger.info "in seconde #{(end_time - start_time)*1000} ms" 
       if flag 
         order.success!
+        # logger.info "first in seconde #{(first_end - first_start)*1000} ms" 
+ 
         return  {status:0, message: I18n.t("area.commission_success"),price: price, label: found_area.label, id: found_area.id, code: found_area.code }
       else
         order.not_in_areas!
+        # logger.info "first in seconde #{(first_end - first_start)*1000} ms" 
         return  {status:3, message: I18n.t("area.address_not_in_station"),price: -1}
       end
     end

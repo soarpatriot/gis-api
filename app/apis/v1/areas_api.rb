@@ -1,8 +1,5 @@
 class V1::AreasApi < Grape::API
   helpers do
-    def logger
-       V1::AreasApi.logger
-    end
   end
 
   before do 
