@@ -15,6 +15,7 @@ module ApplicationHelper
     end
   end
 
+
   def is_tab_active?(current_tab_name, tab_name)
     return current_tab_name == tab_name
   end

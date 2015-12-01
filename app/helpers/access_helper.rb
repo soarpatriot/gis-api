@@ -40,4 +40,8 @@ module AccessHelper
     sorted_arr.join("&")
   end
 
+  def logger
+    API.logger
+  end
+ 
 end
