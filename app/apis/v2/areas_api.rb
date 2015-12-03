@@ -122,13 +122,14 @@ class V2::AreasApi < Grape::API
       point = Hash.new 
       point[:lantitude] = params[:lantitude]
       point[:longitude] = params[:longitude]
-      station = Station.includes(areas:[:points,:commission]).where(id: params[:station_id]).try(:first) 
+      station = Station.where(id: params[:station_id]).try(:first) 
       
       flag = false
+
       order = Order.where(station_id: params[:station_id],code: params[:order_code]).first_or_create
       order.update latitude: params[:lantitude], longitude: params[:longitude], station_name: params[:station_name]
       order.increase_for "count"
-     
+
       if station.nil? 
         order.no_station!
         return  {status:1, message: I18n.t("area.station_not_exist"),price: -1}
@@ -142,23 +143,28 @@ class V2::AreasApi < Grape::API
 
       found_area = nil
       flag = false
+      # start_time = Time.now
+      # logger.info " start  ms" 
       areas.each do |area| 
-        if area.include_point? point
-          price =  area.commission.price
-          found_area = area
-          order.update area_id: area.id
-          flag = true
-          break
-        end 
+          if area.include_point? point
+            price =  area.commission.price
+            found_area = area
+              order.update area_id: area.id
+            flag = true
+            break
+          end 
       end 
-      # logger.info "in seconde #{(end_time - start_time)*1000} ms" 
+      # end_time = Time.now 
+      
+      #  logger.info "in seconde #{(end_time - start_time)*1000} ms" 
       if flag 
-        order.success!
+        
+          order.success!
         # logger.info "first in seconde #{(first_end - first_start)*1000} ms" 
  
         return  {status:0, message: I18n.t("area.commission_success"),price: price, label: found_area.label, id: found_area.id, code: found_area.code }
       else
-        order.not_in_areas!
+          order.not_in_areas!
         # logger.info "first in seconde #{(first_end - first_start)*1000} ms" 
         return  {status:3, message: I18n.t("area.address_not_in_station"),price: -1}
       end

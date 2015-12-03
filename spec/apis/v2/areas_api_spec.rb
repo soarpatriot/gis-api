@@ -200,7 +200,6 @@ describe V2::AreasApi do
         longitude: test_point3[:longitude],
         station_id: station.id,
         order_code: order_number)
- 
       expect(res[:message]).to eq(I18n.t("area.not_exist"))
       expect(res[:status]).to eq(2)
       expect(res[:price]).to eq(-1)
