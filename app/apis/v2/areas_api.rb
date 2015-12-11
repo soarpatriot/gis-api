@@ -169,5 +169,55 @@ class V2::AreasApi < Grape::API
         return  {status:3, message: I18n.t("area.address_not_in_station"),price: -1}
       end
     end
+
+
+    desc "区域提成查询,不需要输入订单", {
+    }
+    params do 
+      requires :station_id, type: Integer 
+      requires :lantitude, type: Float
+      requires :longitude, type: Float
+    end
+    get "price" do 
+
+      price = -1
+      point = Hash.new 
+      point[:lantitude] = params[:lantitude]
+      point[:longitude] = params[:longitude]
+      station = Station.where(id: params[:station_id]).try(:first) 
+      
+      flag = false
+
+
+      if station.nil? 
+        return  {status:1, message: I18n.t("area.station_not_exist"),price: -1}
+      end  
+      
+      areas = station.areas 
+      if areas.size == 0
+        return  {status:2, message: I18n.t("area.not_exist"),price: -1}
+      end 
+
+      found_area = nil
+      flag = false
+      # start_time = Time.now
+      # logger.info " start  ms" 
+      areas.each do |area| 
+          if area.include_point? point
+            price =  area.commission.price
+            found_area = area
+            flag = true
+            break
+          end 
+      end 
+      # end_time = Time.now 
+      
+      if flag 
+        return  {status:0, message: I18n.t("area.commission_success"),price: price, label: found_area.label, id: found_area.id, code: found_area.code }
+      else
+        return  {status:3, message: I18n.t("area.address_not_in_station"),price: -1}
+      end
+    end
+
   end
 end
