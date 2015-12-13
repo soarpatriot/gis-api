@@ -1,4 +1,6 @@
 class V2::AreasApi < Grape::API
+
+  require 'benchmark'
   helpers do
     def logger
        V2::AreasApi.logger
@@ -184,9 +186,9 @@ class V2::AreasApi < Grape::API
       point = Hash.new 
       point[:lantitude] = params[:lantitude]
       point[:longitude] = params[:longitude]
-      station = Station.where(id: params[:station_id]).try(:first) 
+      station = Station.includes( areas:[:points]).where(id: params[:station_id]).try(:first) 
       
-      flag = false
+      #logger.info " start  ms" + station.to_json(includes: :areas)
 
 
       if station.nil? 
@@ -203,12 +205,15 @@ class V2::AreasApi < Grape::API
       # start_time = Time.now
       # logger.info " start  ms" 
       areas.each do |area| 
-          if area.include_point? point
-            price =  area.commission.price
-            found_area = area
-            flag = true
-            break
-          end 
+              #Benchmark.bmbm(10)  do |t|
+              flag = V2.include_point? area.points, point 
+              #end
+              if flag
+                price =  area.commission.price
+                found_area = area
+                flag = true
+                break
+              end 
       end 
       # end_time = Time.now 
       
