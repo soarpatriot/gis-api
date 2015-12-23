@@ -11,7 +11,23 @@ class V1::AreasApi < Grape::API
   end
   
   namespace :areas do
-    
+    desc "验证区域编号",{
+        entity: AreaEntity
+    }
+    params do
+      requires :code,type:String
+      requires :station_id,type:Integer
+      optional :area_id,type:Integer
+    end
+    get "exists" do
+      areas = Area.where(station_id: params[:station_id],code: params[:code])
+      if params[:area_id]
+        areas = areas.where.not(id: params[:area_id])
+        #binding.pry
+      end
+      !areas.exists?
+    end
+
     desc "创建区域", {
       entity: AreaEntity
     }
