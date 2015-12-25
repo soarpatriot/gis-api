@@ -5,7 +5,7 @@ set :server_domain_name, "api-commission.wltest.com"
 set :node_count, 8
 
 set :repo_url, 'git@git.rfdoa.cn:java/price.git'
-set :branch, "master"
+set :branch, "dev"
 set :deploy_to, "/data/www/gis-api"
 
 set :god_pid, "#{shared_path}/tmp/pids/god.pid"
