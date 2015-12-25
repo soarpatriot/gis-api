@@ -4,7 +4,8 @@ describe V1::AreasApi do
 
   let(:areas_path) { "/v1/areas" }
   let(:areas_commission_path) { "/v1/areas/commission" }
- 
+  let(:area_name_exist_path) { "/v1/areas/name-exist" }
+   
   def update_area_path area 
     "v1/areas/#{area.id}"
   end 
@@ -33,6 +34,42 @@ describe V1::AreasApi do
       expect(res[:longitude]).to eq(longitude.to_s)
  
     end
+  end
+  context "name exist"  do 
+    it "create check" do 
+      station = create :station 
+      area = create :area, station: station, label: "aaaa"
+      name = "a1"
+      res  = auth_json_get area_name_exist_path, name: name, station_id: station.id
+      expect(res[:status]).to eq(0)
+      
+    end
+    it "update check" do 
+      station = create :station 
+      area = create :area, station: station, label: "aaaa"
+      name = "aaaa"
+      res  = auth_json_get area_name_exist_path, name: name, station_id: station.id, id: area.id
+      expect(res[:status]).to eq(0)
+      
+    end
+    it "create check and exist" do 
+      station = create :station 
+      area = create :area, station: station, label: "aaaa"
+      name = "aaaa"
+      res  = auth_json_get area_name_exist_path, name: name, station_id: station.id
+      expect(res[:status]).to eq(1)
+      
+    end
+    it "update check and exist" do 
+      station = create :station 
+      area = create :area, station: station, label: "aaaa"
+      name = "aaaa"
+      id = 34534534
+      res  = auth_json_get area_name_exist_path, name: name, station_id: station.id, id: id
+      expect(res[:status]).to eq(1)
+      
+    end
+ 
   end
   context "update area" do 
     it "success" do

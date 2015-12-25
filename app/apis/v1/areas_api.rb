@@ -27,6 +27,27 @@ class V1::AreasApi < Grape::API
       end
       !areas.exists?
     end
+    desc "验证区域名称",{
+        entity: AreaEntity
+    }
+    params do
+      requires :name,type:String
+      requires :station_id,type:Integer
+      optional :id,type:Integer
+    end
+    get "name-exist" do
+      area = Area.where(station_id: params[:station_id], label: params[:name]).first
+      if area.nil?
+        return  {status:0}
+      end
+
+      if area.id == params[:id]
+        return  {status:0}
+      end 
+      
+      return  {status:1}
+    end
+
 
     desc "创建区域", {
       entity: AreaEntity
