@@ -109,6 +109,7 @@ class V1::AreasApi < Grape::API
       end 
       cookie_value = cookies[:LoginUserInfo] 
 
+      logger.info "cookie value:  #{cookie_value}"
       log_create_info cookie_value, params
 
       present area, with: AreaEntity
@@ -145,6 +146,7 @@ class V1::AreasApi < Grape::API
       area_params[:commission_id] = params[:commission_id] if params[:commission_id]
       
       cookie_value = cookies[:LoginUserInfo] 
+      logger.info "cookie value:  #{cookie_value}"
       log_change_area cookie_value, params, area
 
       area.update! area_params
