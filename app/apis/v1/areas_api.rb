@@ -1,5 +1,30 @@
 class V1::AreasApi < Grape::API
   helpers do
+    def user_info cookie_value
+      unless cookie_value.nil?
+        user_cookie_url = Settings.user_cookire_url
+        user = RestClient.get "#{user_cookie_url}/cookie?cookie_value=#{cookie_value}"
+        user_info = JSON.parse user 
+        user_info
+        
+      end
+    end
+
+    def log_create_info cookie_value, params 
+      user = user_info cookie_value
+      unless user.nil?
+        logger.info "create new area by: #{user},  params: #{params}"
+      end
+    end
+
+    def log_change_area cookie_value, params, area 
+      user = user_info cookie_value
+      unless user.nil?
+        logger.info "update area by: #{user}, old value: #{area}, #{area.commission},    new  params: #{params}"
+
+        
+      end
+    end
   end
 
   before do 
@@ -61,6 +86,7 @@ class V1::AreasApi < Grape::API
       optional :distance, type:Integer 
       requires :station_id, type:Integer 
       optional :commission_id, type: Integer
+      optional :user_info,type:String
       requires :points, type:Array do 
         requires :lantitude
         requires :longitude
@@ -81,6 +107,10 @@ class V1::AreasApi < Grape::API
       points.each do  |point|
         area.points.create lantitude: point.lantitude, longitude: point.longitude
       end 
+      cookie_value = cookies[:LoginUserInfo] 
+
+      log_create_info cookie_value, params
+
       present area, with: AreaEntity
     end
 
@@ -113,6 +143,9 @@ class V1::AreasApi < Grape::API
       area_params[:distance] = params[:distance] if params[:distance]
       area_params[:mian] = params[:mian] if params[:mian]
       area_params[:commission_id] = params[:commission_id] if params[:commission_id]
+      
+      cookie_value = cookies[:LoginUserInfo] 
+      log_change_area cookie_value, params, area
 
       area.update! area_params
 

@@ -41,7 +41,7 @@ module AccessHelper
   end
 
   def logger
-    API.logger
+    Grape::API.logger
   end
  
 end
