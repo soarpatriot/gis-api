@@ -6,7 +6,6 @@ module AccessHelper
   end
   
   def key_authenticate!
-    log.info "aaaaa"
     origin = env["HTTP_ORIGIN"]
     error!("4011", 401) if params[:api_key].nil?
     #origin = env["HTTP_ORIGIN"]
