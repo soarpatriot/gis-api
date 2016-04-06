@@ -31,4 +31,8 @@ module ApplicationHelper
   def local_result code, key
     {code: code, message: I18n.t(key)}
   end
+
+  def log_info m
+    env[Goliath::Request::RACK_LOGGER].info("#{m}") 
+  end
 end

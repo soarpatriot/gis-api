@@ -1,5 +1,9 @@
 class V1::AreasApi < Grape::API
   helpers do
+    def logger
+       V1::AreasApi.logger
+    end
+ 
     def user_info cookie_value
       unless cookie_value.nil?
         user_cookie_url = Settings.user_cookire_url
@@ -13,14 +17,14 @@ class V1::AreasApi < Grape::API
     def log_create_info cookie_value, params 
       user = user_info cookie_value
       unless user.nil?
-        logger.info "create new area by: #{user},  params: #{params}"
+        log_info "create new area by: #{user},  params: #{params}"
       end
     end
 
     def log_change_area cookie_value, params, area 
       user = user_info cookie_value
       unless user.nil?
-        logger.info "update area by: #{user}, old value: #{area}, #{area.commission},    new  params: #{params}"
+        log_info "update area by: #{user}, old value: #{area}, #{area.commission},    new  params: #{params}"
 
         
       end
@@ -109,7 +113,7 @@ class V1::AreasApi < Grape::API
       end 
       cookie_value = cookies[:LoginUserInfo] 
 
-      logger.info "cookie value:  #{cookie_value}"
+      log_info "cookie value:  #{cookie_value}"
       log_create_info cookie_value, params
 
       present area, with: AreaEntity
@@ -146,7 +150,7 @@ class V1::AreasApi < Grape::API
       area_params[:commission_id] = params[:commission_id] if params[:commission_id]
       
       cookie_value = cookies[:LoginUserInfo] 
-      logger.info "cookie value:  #{cookie_value}"
+      log_info "cookie value:  #{cookie_value}"
       log_change_area cookie_value, params, area
 
       area.update! area_params
