@@ -12,16 +12,12 @@ class V1::AreasApi < Grape::API
 
     def log_create_info cookie_value, params 
       user = user_info cookie_value
-      unless user.nil?
-        logger.info "create new area by: #{user},  commission: #{params[:commission_id]}"
-      end
+      logger.info "create new area by: #{user},  commission: #{params[:commission_id]}"
     end
 
     def log_change_area cookie_value, params, area 
       user = user_info cookie_value
-      unless user.nil?
-        logger.info "update area by: #{user}, old value: area_id: #{area.to_json}, price: #{area.commission.try(:to_json)},   commission  params: #{params[:commission_id]}"
-      end
+      logger.info "update area by: #{user}, old value: area_id: #{area.to_json}, price: #{area.commission.try(:to_json)},   commission  params: #{params[:commission_id]}"
     end
   end
 
