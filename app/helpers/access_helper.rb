@@ -6,8 +6,7 @@ module AccessHelper
   end
   
   def key_authenticate!
-    logger.info "cookies:  #{cookies}"
-
+    log.info "aaaaa"
     origin = env["HTTP_ORIGIN"]
     error!("4011", 401) if params[:api_key].nil?
     #origin = env["HTTP_ORIGIN"]
@@ -43,7 +42,7 @@ module AccessHelper
   end
 
   def logger
-    Grape::API.logger
+    Logger.new('log/logfile.log')
   end
  
 end

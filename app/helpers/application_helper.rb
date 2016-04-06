@@ -1,3 +1,5 @@
+
+require "goliath"
 module ApplicationHelper
 
   def bootstrap_class_for flash_type
@@ -35,4 +37,5 @@ module ApplicationHelper
   def log_info m
     env[Goliath::Request::RACK_LOGGER].info("#{m}") 
   end
+
 end

@@ -24,6 +24,7 @@ class ApiV2 < Grape::API
   end
 
   helpers AccessHelper
+  helpers ApplicationHelper
 
   mount V2::AreasApi
   mount V2::XssApi
