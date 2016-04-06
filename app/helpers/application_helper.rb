@@ -1,3 +1,4 @@
+
 module ApplicationHelper
 
   def bootstrap_class_for flash_type
@@ -31,4 +32,6 @@ module ApplicationHelper
   def local_result code, key
     {code: code, message: I18n.t(key)}
   end
+
+
 end

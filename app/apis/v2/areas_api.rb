@@ -209,7 +209,7 @@ class V2::AreasApi < Grape::API
               flag = V2.include_point? area.points, point 
               #end
               if flag
-                price =  area.commission.price
+                price =  area.commission.try(:price)
                 found_area = area
                 flag = true
                 break

@@ -41,7 +41,7 @@ module AccessHelper
   end
 
   def logger
-    API.logger
+    Logger.new('log/logfile.log')
   end
  
 end

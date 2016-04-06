@@ -24,8 +24,10 @@ class ApiV2 < Grape::API
   end
 
   helpers AccessHelper
+  helpers ApplicationHelper
 
   mount V2::AreasApi
+  mount V2::XssApi
 
   add_swagger_documentation  api_version:"v2", base_path: Settings.host
   # http://api.dreamreality.cn/v1/swagger_doc.json   
