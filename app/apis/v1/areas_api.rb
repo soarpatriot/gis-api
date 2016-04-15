@@ -12,8 +12,9 @@ class V1::AreasApi < Grape::API
     def notify user, pre_content, post_content 
       unless user.nil?
         price_url = Settings.price_url
-        result = RestClient.post "#{price_url}/emails/area", user_id: user[:id], user_name: user[:name], pre_content: pre_content, post_content:post_content  
-        result
+        Thread.new do 
+          result = RestClient.post "#{price_url}/emails/area", user_id: user[:id], user_name: user[:name], pre_content: pre_content, post_content:post_content  
+        end
       end 
     end
     def log_create_info cookie_value, params 
