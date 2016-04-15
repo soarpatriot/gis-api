@@ -2,7 +2,7 @@ class V1::AreasApi < Grape::API
   helpers do
     def user_info cookie_value
       unless cookie_value.nil?
-        user_cookie_url = Settings.user_cookire_url
+        price_url = Settings.price_url
         user = RestClient.get "#{price_url}/users/cookie?cookie_value=#{cookie_value}"
         user_info = JSON.parse user 
         user_info
