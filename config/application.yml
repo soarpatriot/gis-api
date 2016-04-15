@@ -4,7 +4,7 @@ defaults: &defaults
   host: "http://192.168.253.104:9000"
   origin: "http://192.168.253.104:9000/v1"
   allow_origin: "http://ffffff.com:3001,http://localhost:3000"
-  percie_url: "http://price-service.wltest.com"
+  price_url: "http://10.3.45.201:10001"
 
 development:
   <<: *defaults

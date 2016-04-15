@@ -25,6 +25,7 @@ class ApiV1 < Grape::API
 
   helpers AccessHelper
   helpers ApplicationHelper
+  helpers NotifyHelper
 
   mount V1::StationsApi
   mount V1::CommissionsApi
