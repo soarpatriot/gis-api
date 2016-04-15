@@ -3,21 +3,32 @@ class V1::AreasApi < Grape::API
     def user_info cookie_value
       unless cookie_value.nil?
         user_cookie_url = Settings.user_cookire_url
-        user = RestClient.get "#{user_cookie_url}/cookie?cookie_value=#{cookie_value}"
+        user = RestClient.get "#{price_url}/users/cookie?cookie_value=#{cookie_value}"
         user_info = JSON.parse user 
         user_info
         
       end
     end
-
+    def notify user, pre_content, post_content 
+      unless user.nil?
+        RestClient.post "#{price_url}/emails/area", user_id: user.id, 
+          user_name: user.name, pre_content: pre_content, post_content:post_content  
+      end 
+    end
     def log_create_info cookie_value, params 
       user = user_info cookie_value
-      logger.info "create new area by: #{user},  commission: #{params[:commission_id]}"
+      message =  "create new area by: #{user},  commission: #{params[:commission_id]}"
+      logger.info message
+      notify user, "创建新区域", message 
     end
 
     def log_change_area cookie_value, params, area 
       user = user_info cookie_value
-      logger.info "update area by: #{user}, old value: area_id: #{area.to_json}, price: #{area.commission.try(:to_json)},   commission  params: #{params[:commission_id]}"
+      pre_content =  "update area by: #{user}, old value: area_id: #{area.to_json}, price: #{area.commission.try(:to_json)}, " 
+      post_content = "  commission  params: #{params[:commission_id]}"
+
+      logger.info pre_content + post_content
+      notify user, pre_content, post_content
     end
   end
 
