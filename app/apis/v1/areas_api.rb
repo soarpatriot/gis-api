@@ -12,8 +12,12 @@ class V1::AreasApi < Grape::API
     def notify user, pre_content, post_content 
       unless user.nil?
         price_url = Settings.price_url
-        Thread.new do 
-          result = RestClient.post "#{price_url}/emails/area", user_id: user[:id], user_name: user[:name], pre_content: pre_content, post_content:post_content  
+        begin 
+          Thread.new do 
+            result = RestClient.post "#{price_url}/emails/area", user_id: user[:id], user_name: user[:name], pre_content: pre_content, post_content:post_content  
+          end
+        rescue
+          logger.info "notify user error"
         end
       end 
     end
