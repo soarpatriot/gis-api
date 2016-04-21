@@ -2,22 +2,41 @@ class V1::AreasApi < Grape::API
   helpers do
     def user_info cookie_value
       unless cookie_value.nil?
-        user_cookie_url = Settings.user_cookire_url
-        user = RestClient.get "#{user_cookie_url}/cookie?cookie_value=#{cookie_value}"
+        price_url = Settings.price_url
+        user = RestClient.get "#{price_url}/users/cookie?cookie_value=#{cookie_value}"
         user_info = JSON.parse user 
         user_info
         
       end
     end
-
+    def notify user, pre_content, post_content 
+      unless user.nil?
+        price_url = Settings.price_url
+        begin 
+          Thread.new do 
+            result = RestClient.post "#{price_url}/emails/area", user_id: user[:id].to_i, user_name: user[:name], pre_content: pre_content, post_content:post_content  
+          end
+        rescue
+          logger.info "notify user error"
+        end
+      end 
+    end
     def log_create_info cookie_value, params 
       user = user_info cookie_value
-      logger.info "create new area by: #{user},  commission: #{params[:commission_id]}"
+      commission = Commission.find(params[:commission_id]) unless params[:commission_id].nil?
+      message =  "create new area by: #{user},  params: #{params[:commission_id]}, price: #{commission.try(:to_json)}"
+      logger.info message
+      notify user, "创建新区域", message 
     end
 
     def log_change_area cookie_value, params, area 
       user = user_info cookie_value
-      logger.info "update area by: #{user}, old value: area_id: #{area.to_json}, price: #{area.commission.try(:to_json)},   commission  params: #{params[:commission_id]}"
+      commission = Commission.find(params[:commission_id]) unless params[:commission_id].nil?
+      pre_content =  "update area by: #{user}, old value: area_id: #{area.to_json}, price: #{area.commission.try(:to_json)}, " 
+      post_content = "  params: #{params}, price: #{commission.try(:to_json)}  "
+
+      logger.info pre_content + post_content
+      notify user, pre_content, post_content
     end
   end
 
