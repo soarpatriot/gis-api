@@ -14,7 +14,7 @@ class V1::AreasApi < Grape::API
         price_url = Settings.price_url
         begin 
           Thread.new do 
-            result = RestClient.post "#{price_url}/emails/area", user_id: user[:id], user_name: user[:name], pre_content: pre_content, post_content:post_content  
+            result = RestClient.post "#{price_url}/emails/area", user_id: user[:id].to_i, user_name: user[:name], pre_content: pre_content, post_content:post_content  
           end
         rescue
           logger.info "notify user error"
