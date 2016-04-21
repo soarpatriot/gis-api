@@ -23,15 +23,17 @@ class V1::AreasApi < Grape::API
     end
     def log_create_info cookie_value, params 
       user = user_info cookie_value
-      message =  "create new area by: #{user},  commission: #{params[:commission_id]}"
+      commission = Commission.find(params[:commission_id]) unless params[:commission_id].nil?
+      message =  "create new area by: #{user},  params: #{params[:commission_id]}, price: #{commission.try(:to_json)}"
       logger.info message
       notify user, "创建新区域", message 
     end
 
     def log_change_area cookie_value, params, area 
       user = user_info cookie_value
+      commission = Commission.find(params[:commission_id]) unless params[:commission_id].nil?
       pre_content =  "update area by: #{user}, old value: area_id: #{area.to_json}, price: #{area.commission.try(:to_json)}, " 
-      post_content = "  commission  params: #{params[:commission_id]}"
+      post_content = "  params: #{params}, price: #{commission.try(:to_json)}  "
 
       logger.info pre_content + post_content
       notify user, pre_content, post_content
