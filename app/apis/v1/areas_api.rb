@@ -4,8 +4,8 @@ class V1::AreasApi < Grape::API
       unless cookie_value.nil?
         price_url = Settings.price_url
         user = RestClient.get "#{price_url}/users/cookie?cookie_value=#{cookie_value}"
-        user_info = JSON.parse user 
-        user_info
+        user_hash = JSON.parse user, symbolize_names: true 
+        user_hash
         
       end
     end
@@ -14,7 +14,7 @@ class V1::AreasApi < Grape::API
         price_url = Settings.price_url
         begin 
           Thread.new do 
-            result = RestClient.post "#{price_url}/emails/area", user_id: user[:id].to_i, user_name: user[:name], pre_content: pre_content, post_content:post_content  
+            result = RestClient.post "#{price_url}/emails/area", user_id: user[:id], user_name: user[:name], pre_content: pre_content, post_content:post_content  
           end
         rescue
           logger.info "notify user error"
