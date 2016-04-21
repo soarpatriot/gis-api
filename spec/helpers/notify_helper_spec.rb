@@ -11,7 +11,6 @@ describe NotifyHelper, type: :helper do
       notify_area user, "ss", "sss" 
        
       
-      
     end
   end
 end
