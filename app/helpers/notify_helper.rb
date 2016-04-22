@@ -48,7 +48,7 @@ module NotifyHelper
     def log_create_info cookie_value, params, area
       user = user_info cookie_value
       commission = Commission.find(params[:commission_id]) unless params[:commission_id].nil?
-      message =  "create new area by: #{user},  params: #{params[:commission_id]}, price: #{commission.try(:to_json)}"
+      message =  "create new area by: #{user},  params: #{params},area: #{area.to_json}, price: #{commission.try(:to_json)}"
       logger.info message
       notify_area user, params, area, 1 
     end
