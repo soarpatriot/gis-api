@@ -18,8 +18,8 @@ module NotifyHelper
         price_url = Settings.price_url
         after_price = Commission.find(params[:commission_id]).try(:price)
         station_name = area.try(:station).try(:description)
+        logger.info "area: #{area}"
         begin 
-          Thread.new do
             result = RestClient.post "#{price_url}/emails/area/note", 
               {opt_type: opt_type,
               user_id: user[:id],
@@ -39,7 +39,6 @@ module NotifyHelper
               content_type: :json,
               accept: :json
             logger.info result.force_encoding('utf-8').encode
-          end
         rescue  Exception => e
           logger.info  "exception e:  #{e}"
         end
@@ -50,7 +49,7 @@ module NotifyHelper
       commission = Commission.find(params[:commission_id]) unless params[:commission_id].nil?
       message =  "create new area by: #{user},  params: #{params},area: #{area.to_json}, price: #{commission.try(:to_json)}"
       logger.info message
-      notify_area user, params, area, 1 
+      notify_area user, params, area, 1
     end
 
     def log_change_area cookie_value, params, area 
