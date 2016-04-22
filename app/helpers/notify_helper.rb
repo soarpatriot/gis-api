@@ -1,5 +1,8 @@
 module NotifyHelper
-    include AccessHelper
+    def logger
+      Logger.new('log/logfile.log')
+    end
+ 
     def user_info cookie_value
       unless cookie_value.nil?
         price_url = Settings.price_url
