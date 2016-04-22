@@ -9,24 +9,41 @@ class V1::AreasApi < Grape::API
         
       end
     end
-    def notify user, pre_content, post_content 
+    def notify user, params, area, opt_type 
       unless user.nil?
         price_url = Settings.price_url
+        after_price = Commission.find(params[:commission_id]).try(:price)
+        station_name = area.station.try(:description)
         begin 
           Thread.new do 
-            result = RestClient.post "#{price_url}/emails/area", user_id: user[:id], user_name: user[:name], pre_content: pre_content, post_content:post_content  
+            result = RestClient.post "#{price_url}/emails/area/note", 
+              opt_type: opt_type,
+              user_id: user[:id],
+              user_name: user[:name], 
+              user_code: user[:code], 
+              station_name: station_name,
+              area_name_before: area.label, 
+              area_name_after: params[:label], 
+              area_code_before: area.code, 
+              area_code_after: params[:code], 
+              area_mian_before: area.mian, 
+              area_mian_after: params[:mian], 
+              area_price_before: area.commission.try(:price), 
+              area_price_after: after_price,
+              update_at_before: area.updated_at.strftime('%Y-%m-%d %H:%M:%S'),
+              update_at_after: Time.now.strftime('%Y-%m-%d %H:%M:%S')
           end
         rescue
           logger.info "notify user error"
         end
       end 
     end
-    def log_create_info cookie_value, params 
+    def log_create_info cookie_value, params, area
       user = user_info cookie_value
       commission = Commission.find(params[:commission_id]) unless params[:commission_id].nil?
       message =  "create new area by: #{user},  params: #{params[:commission_id]}, price: #{commission.try(:to_json)}"
       logger.info message
-      notify user, "创建新区域", message 
+      notify user, params, area, 1 
     end
 
     def log_change_area cookie_value, params, area 
@@ -36,7 +53,7 @@ class V1::AreasApi < Grape::API
       post_content = "  params: #{params}, price: #{commission.try(:to_json)}  "
 
       logger.info pre_content + post_content
-      notify user, pre_content, post_content
+      notify user, params, area, 2
     end
   end
 
@@ -122,7 +139,7 @@ class V1::AreasApi < Grape::API
       end 
       cookie_value = cookies[:LoginUserInfo] 
 
-      log_create_info cookie_value, params
+      log_create_info cookie_value, params, area
 
       present area, with: AreaEntity
     end
