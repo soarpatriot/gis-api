@@ -6,8 +6,13 @@ module NotifyHelper
     def user_info cookie_value
       unless cookie_value.nil?
         price_url = Settings.price_url
-        user = RestClient.get "#{price_url}/users/cookie?cookie_value=#{cookie_value}"
-        user_hash = JSON.parse user, symbolize_names: true 
+        begin 
+          user = RestClient.get "#{price_url}/users/cookie?cookie_value=#{cookie_value}"
+          user_hash = JSON.parse user, symbolize_names: true 
+        rescue  Exception => e
+          logger.info  "exception e:  #{e}"
+        end
+  
         user_hash
         
       end
