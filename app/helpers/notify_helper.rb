@@ -6,8 +6,16 @@ module NotifyHelper
     def user_info cookie_value
       unless cookie_value.nil?
         price_url = Settings.price_url
-        user = RestClient.get "#{price_url}/users/cookie?cookie_value=#{cookie_value}"
-        user_hash = JSON.parse user, symbolize_names: true 
+        begin 
+          url = "#{price_url}/users/cookie?cookie_value=#{cookie_value}"
+          user = RestClient::Request.execute(method: :get, url: url,
+                   timeout: 3, open_timeout: 2)
+          #user = RestClient.get "#{price_url}/users/cookie?cookie_value=#{cookie_value}"
+          user_hash = JSON.parse user, symbolize_names: true 
+        rescue  Exception => e
+          logger.info  "exception e:  #{e}"
+        end
+  
         user_hash
         
       end
@@ -20,8 +28,11 @@ module NotifyHelper
         station_name = area.try(:station).try(:description)
         logger.info "area: #{area}"
         begin 
-            result = RestClient.post "#{price_url}/emails/area/note", 
-              {opt_type: opt_type,
+          result = Request.execute method: :post, 
+              url:  "#{price_url}/emails/area/note", 
+              timeout: 3,
+              open_timeout: 2,
+              payload: {opt_type: opt_type,
               user_id: user[:id],
               user_name: user[:name], 
               user_code: user[:code], 
