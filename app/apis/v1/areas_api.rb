@@ -60,6 +60,7 @@ class V1::AreasApi < Grape::API
       requires :station_id, type:Integer 
       optional :commission_id, type: Integer
       optional :user_info,type:String
+      optional :atype, type:Integer
       requires :points, type:Array do 
         requires :lantitude
         requires :longitude
@@ -74,7 +75,8 @@ class V1::AreasApi < Grape::API
         mian: params[:mian],
         latitude: params[:latitude],
         longitude: params[:longitude], 
-        distance: params[:distance]
+        distance: params[:distance],
+        atype: params[:atype]
       )
       points = params[:points]
       points.each do  |point|
@@ -98,7 +100,7 @@ class V1::AreasApi < Grape::API
       optional :latitude, type:Float 
       optional :longitude, type:Float 
       optional :distance, type:Integer 
- 
+      optional :atype, type:Integer
       requires :station_id, type:Integer 
       optional :commission_id, type: Integer
       optional :points,type:Array do 
@@ -116,6 +118,7 @@ class V1::AreasApi < Grape::API
       area_params[:distance] = params[:distance] if params[:distance]
       area_params[:mian] = params[:mian] if params[:mian]
       area_params[:commission_id] = params[:commission_id] if params[:commission_id]
+      area_params[:atype] = params[:atype] if params[:atype]
       
       cookie_value = cookies[:LoginUserInfo] 
       log_change_area cookie_value, params, area
