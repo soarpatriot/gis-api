@@ -14,6 +14,11 @@ describe V1::StationsApi do
   def station_area_path station 
     "/v1/stations/#{station.id}/areas"
   end
+
+  def station_delivery_area_path station 
+    "/v1/stations/#{station.id}/delivery-areas"
+  end
+ 
   def station_sync_path id 
     "/v1/stations/#{id}/sync"
   end
@@ -33,6 +38,23 @@ describe V1::StationsApi do
 
     end
   end 
+
+  context "delivery station area" do 
+    it "get areas" do 
+      points = create_list :point, 10
+      points1 = create_list :point, 5
+      area1 = create :area, points: points, atype: 1
+      area2 = create :area, points: points1 
+
+      areas = [area1,area2]
+      station = create :station, areas: areas 
+
+      res = auth_json_get station_delivery_area_path(station)
+      expect(res.size).to eq(1)
+
+    end
+  end 
+
 
   context "city stations" do 
     it "succes" do

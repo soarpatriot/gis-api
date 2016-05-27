@@ -4,6 +4,7 @@ class Area < ActiveRecord::Base
   belongs_to :commission
   has_many :orders
   has_many :points, as: :pointable, dependent: :destroy
+  enum atype: [:commission,:delivery]
 
   def include_point? point 
     px = point[:lantitude] 

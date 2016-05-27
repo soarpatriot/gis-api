@@ -14,6 +14,7 @@ describe V1::AreasApi do
     it "success" do
       commission = create :commission 
       points = [{lantitude:13.10,longitude: 45.31},{lantitude: 34.2,longitude: 23.3}]
+      atype = 1
       label = "aa"
       code = "cc" 
       latitude = 12.4
@@ -22,7 +23,14 @@ describe V1::AreasApi do
       mian = 23452345.12 
       station = create :station 
 
-      res = auth_json_post areas_path, label:label, points: points, station_id: station.id, commission_id: commission.id, code: code, latitude: latitude, longitude: longitude, distance: distance, mian: mian
+      res = auth_json_post areas_path, label:label, 
+        points: points, 
+        station_id: station.id, 
+        commission_id: commission.id,
+        code: code, latitude: latitude, 
+        longitude: longitude, 
+        distance: distance, mian: mian,
+        atype: atype
 
       expect(res[:commission_id]).to eq(commission.id)
       expect(res[:label]).to eq(label)
@@ -32,6 +40,7 @@ describe V1::AreasApi do
       expect(res[:distance]).to eq(distance)
       expect(res[:latitude]).to eq(latitude.to_s)
       expect(res[:longitude]).to eq(longitude.to_s)
+      expect(res[:atype]).to eq("delivery")
  
     end
   end

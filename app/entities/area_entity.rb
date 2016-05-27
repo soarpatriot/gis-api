@@ -8,6 +8,7 @@ class AreaEntity < Grape::Entity
   expose :longitude,             documentation: {required: true, type: "Float", desc: "中心点经度"}
   expose :mian,             documentation: {required: true, type: "Float", desc: "面积"}
   expose :distance,             documentation: {required: true, type: "Integer", desc: "距离站区位置"}
+  expose :atype,             documentation: {required: true, type: "Integer", desc: "类型"}
   expose :station_id, documentation: {requiree:true, type:"Integer", desc:"站点id"} do |instance|
     instance.station.try(:id)
   end

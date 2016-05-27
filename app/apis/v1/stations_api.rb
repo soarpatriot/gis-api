@@ -169,6 +169,21 @@ class V1::StationsApi < Grape::API
       present areas, with: AreaEntity
     end
 
+    desc "获取站点配送区域", {
+      entity: AreaEntity
+    }
+    params do 
+      requires :api_key, type: String
+ 
+      requires :id, type: Integer 
+    end
+ 
+    get ":id/delivery-areas" do
+      key_authenticate!
+      areas = Station.find(params[:id]).delivery_areas
+      present areas, with: AreaEntity
+    end
+
 
     desc "删除站点", {
       entity: StationEntity
