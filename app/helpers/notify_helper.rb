@@ -28,7 +28,7 @@ module NotifyHelper
         station_name = area.try(:station).try(:description)
         logger.info "area: #{area}"
         begin 
-          result = Request.execute method: :post, 
+          result = RestClient::Request.execute method: :post, 
               url:  "#{price_url}/emails/area/note", 
               timeout: 3,
               open_timeout: 2,
