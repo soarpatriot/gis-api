@@ -28,7 +28,7 @@ module NotifyHelper
         station_name = area.try(:station).try(:description)
         logger.info "area: #{area}"
         begin 
-          result = Request.execute method: :post, 
+          result = RestClient::Request.execute method: :post, 
               url:  "#{price_url}/emails/area/note", 
               timeout: 3,
               open_timeout: 2,
@@ -47,8 +47,10 @@ module NotifyHelper
               price_after: after_price,
               update_at_before: area.updated_at.strftime('%Y-%m-%d %H:%M:%S'),
               update_at_after: Time.now.strftime('%Y-%m-%d %H:%M:%S')}.to_json,
-              content_type: :json,
-              accept: :json
+              headers: {
+                content_type: :json,
+                accept: :json
+              }
             logger.info result.force_encoding('utf-8').encode
         rescue  Exception => e
           logger.info  "exception e:  #{e}"

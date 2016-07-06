@@ -328,6 +328,3 @@ DEPENDENCIES
   spring-commands-rspec
   uuidtools
   webmock
-
-BUNDLED WITH
-   1.10.6
