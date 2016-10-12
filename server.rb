@@ -20,7 +20,7 @@ class Server < Goliath::API
   def response(env)
     
     res = ServiceApplication.call env
-    res[1]['Access-Control-Allow-Origin'] = "*"
+    res[1]['Access-Control-Allow-Origin'] = env["HTTP_ORIGIN"]
     res[1]['Access-Control-Allow-Credentials'] = "true"
     res[1]['Access-Control-Expose-Headers'] = "X-Page, X-Per-Page, X-Prev-Page, X-Next-Page, X-Total, X-Total-Pages"
 
