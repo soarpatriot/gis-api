@@ -122,8 +122,8 @@ class V1::StationsApi < Grape::API
       optional :longitude, type:Float
       optional :address, type:String 
       optional :points,type:Array do 
-        requires :lantitude
-        requires :longitude
+        requires :lat
+        requires :lng
       end
     end
     post ":id/sync" do 
@@ -142,7 +142,7 @@ class V1::StationsApi < Grape::API
       unless points.nil?
         ps = []
         points.each do  |point|
-          p = Point.create lantitude: point.lantitude, longitude: point.longitude 
+          p = Point.create lantitude: point.lat, longitude: point.lng 
           ps << p
         end 
         station.points = ps
