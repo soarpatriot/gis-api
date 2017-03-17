@@ -124,6 +124,7 @@ describe V1::StationsApi do
       address ="bb"      
       lan = 12.03      
       long = 12.05      
+      # points = [{lat: 13.10,lng: 45.31},{lat: 34.2,lng: 23.3}]
       points = [{lantitude:13.10,longitude: 45.31},{lantitude: 34.2,longitude: 23.3}]
 
       ps = create_list :point, 5
@@ -159,7 +160,8 @@ describe V1::StationsApi do
       address ="bb"      
       lan = 12.03      
       long = 12.05      
-      points = [{lantitude:13.10,longitude: 45.31},{lantitude: 34.2,longitude: 23.3}]
+      points = [{lat: 13.10,lng: 45.31},{lat: 34.2,lng: 23.3}]
+      # points = [{lantitude:13.10,longitude: 45.31},{lantitude: 34.2,longitude: 23.3}]
 
       ps = create_list :point, 5
       station = create :station, description: "sss", address: "s23", points: ps 
@@ -177,12 +179,14 @@ describe V1::StationsApi do
       address ="bb"      
       lan = 12.03      
       long = 12.05      
-      points = [{lantitude:13.10,longitude: 45.31},{lantitude: 34.2,longitude: 23.3}]
+      # points = [{lat: 13.10,lng: 45.31},{lantitude: 34.2,longitude: 23.3}]
+      points = [{lat: 13.10,lng: 45.31},{lat: 34.2,lng: 23.3}]
 
       ps = create_list :point, 5
       station = create :station, description: "sss", address: "s23", points: ps 
 
       res = auth_json_post station_sync_path(id), description: description, points: points, address: address, lantitude: lan, longitude: long
+      # puts res
       expect(res[:points].size).to eq(2)
       expect(res[:description]).to eq(description)
       expect(res[:address]).to eq(address)
@@ -199,7 +203,8 @@ describe V1::StationsApi do
       address ="bb"      
       lan = 12.03      
       long = 12.05      
-      points = [{lantitude:13.10,longitude: 45.31},{lantitude: 34.2,longitude: 23.3}]
+      points = [{lat: 13.10,lng: 45.31},{lat: 34.2,lng: 23.3}]
+      # points = [{lantitude:13.10,longitude: 45.31},{lantitude: 34.2,longitude: 23.3}]
 
       ps = create_list :point, 5
       station = create :station, description: "sss", address: "s23", points: ps 
