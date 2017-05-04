@@ -82,7 +82,7 @@ class V1::AreasApi < Grape::API
       points.each do  |point|
         area.points.create lantitude: point.lantitude, longitude: point.longitude
       end 
-      cookie_value = cookies[:LoginUserInfo] 
+      cookie_value = cookies[:access_token]
 
       log_create_info cookie_value, params, area
 
@@ -120,7 +120,7 @@ class V1::AreasApi < Grape::API
       area_params[:commission_id] = params[:commission_id] if params[:commission_id]
       area_params[:atype] = params[:atype] if params[:atype]
       
-      cookie_value = cookies[:LoginUserInfo] 
+      cookie_value = cookies[:access_token]
       log_change_area cookie_value, params, area
 
       area.update! area_params
