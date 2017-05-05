@@ -4,6 +4,7 @@ module NotifyHelper
     end
  
     def user_info cookie_value
+      logger.info "cookie: #{cookie_value}"
       unless cookie_value.nil?
         price_url = Settings.pms_url
         begin 

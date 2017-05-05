@@ -61,7 +61,7 @@ class V1::AreasApi < Grape::API
       optional :commission_id, type: Integer
       optional :user_info,type:String
       optional :atype, type:Integer
-      requires :cookie,type:String
+      requires :cookie, type:String
       requires :points, type:Array do 
         requires :lantitude
         requires :longitude
@@ -85,7 +85,7 @@ class V1::AreasApi < Grape::API
       end
 
 
-      cookie_value = params[:cookie]
+      cookie_value = params[:cookie] || cookies[:access_token]
 
       log_create_info cookie_value, params, area
 
@@ -105,7 +105,7 @@ class V1::AreasApi < Grape::API
       optional :distance, type:Integer 
       optional :atype, type:Integer
       requires :station_id, type:Integer
-      requires :cookie,type:String
+      requires :cookie, type:String
       optional :commission_id, type: Integer
       optional :points,type:Array do 
         requires :lantitude
@@ -124,7 +124,7 @@ class V1::AreasApi < Grape::API
       area_params[:commission_id] = params[:commission_id] if params[:commission_id]
       area_params[:atype] = params[:atype] if params[:atype]
       
-      cookie_value = params[:cookie]
+      cookie_value = params[:cookie] || cookies[:access_token]
 
       log_change_area cookie_value, params, area
 
