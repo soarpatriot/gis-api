@@ -5,6 +5,7 @@ defaults: &defaults
   origin: "http://192.168.253.104:9000/v1"
   allow_origin: "http://ffffff.com:3001,http://localhost:3000"
   price_url: "http://commission-services.wltest.com"
+  pms_url: "http://pms-service.wltest.com"
 
 development:
   <<: *defaults

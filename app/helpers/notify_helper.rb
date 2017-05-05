@@ -5,9 +5,10 @@ module NotifyHelper
  
     def user_info cookie_value
       unless cookie_value.nil?
-        price_url = Settings.price_url
+        price_url = Settings.pms_url
         begin 
           url = "#{price_url}/v2/employees/token?token=#{cookie_value}"
+          logger.info url
           user = RestClient::Request.execute(method: :get, url: url,
                    timeout: 3, open_timeout: 2)
           #user = RestClient.get "#{price_url}/users/cookie?cookie_value=#{cookie_value}"
