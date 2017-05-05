@@ -81,7 +81,10 @@ class V1::AreasApi < Grape::API
       points = params[:points]
       points.each do  |point|
         area.points.create lantitude: point.lantitude, longitude: point.longitude
-      end 
+      end
+
+      logger.info(cookies)
+
       cookie_value = cookies[:access_token]
 
       log_create_info cookie_value, params, area
