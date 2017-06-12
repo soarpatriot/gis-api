@@ -12,8 +12,8 @@ gem 'rack-cors'
 gem 'spreadsheet'
 
 gem 'mysql2'
-gem 'em-synchrony'
-gem 'em-http-request'
+# gem 'em-synchrony'
+# gem 'em-http-request'
 
 gem 'gretel'
 gem 'acts_as_votable', '~> 0.10.0'
