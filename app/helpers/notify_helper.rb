@@ -24,7 +24,9 @@ module NotifyHelper
     end
  
     def notify_area user, params, area, opt_type 
+      logger.info "notify_area: #{area}"
       unless user.nil?
+        logger.info "start notify  #{area}"
         price_url = Settings.price_url
         after_price = Commission.find(params[:commission_id]).try(:price)
         station_name = area.try(:station).try(:description)
