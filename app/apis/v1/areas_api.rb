@@ -61,7 +61,7 @@ class V1::AreasApi < Grape::API
       optional :commission_id, type: Integer
       optional :user_info,type:String
       optional :atype, type:Integer
-      requires :cookie, type:String
+      optional :cookie, type:String
       requires :points, type:Array do 
         requires :lantitude
         requires :longitude
@@ -105,7 +105,7 @@ class V1::AreasApi < Grape::API
       optional :distance, type:Integer 
       optional :atype, type:Integer
       requires :station_id, type:Integer
-      requires :cookie, type:String
+      optional :cookie, type:String
       optional :commission_id, type: Integer
       optional :points,type:Array do 
         requires :lantitude

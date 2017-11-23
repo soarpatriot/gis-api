@@ -23,5 +23,18 @@ class V1::CitiesApi < Grape::API
       present districts, with: DistrictEntity
 
     end
+
+    desc "获取市下站点", {
+      entity: StationEntity
+    }
+    params do
+      requires :id, type: Integer
+    end
+    get ":id/stations" do
+      stations = Station.where(stationable_id:params[:id],stationable_type:"City")
+      present stations, with: StationEntity
+    end
+
+
   end
 end
